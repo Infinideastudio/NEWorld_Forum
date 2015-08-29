@@ -25,7 +25,7 @@
 			break;
 
 		case '1': //删除帖子
-			if (isset($_POST['pwd'])&&$_POST['pwd']=="fixedpwd") {
+			if (isset($_POST['pwd'])&&md5($_POST['pwd'])=="d95fe34d61c24917b41cf22d4073e60e") {
 				mysql_query("UPDATE Posts SET children=replace(children,',{$_POST['pid']},',',') WHERE PID = {$_POST['pidparent']}");
 				mysql_query("DELETE FROM Posts WHERE PID='" . $_POST['pid'] . "'");
 			}
