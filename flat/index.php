@@ -1,31 +1,19 @@
-﻿<!DOCTYPE html>
-<html lang="cn">
-<head>
-	<meta charset="UTF-8">
-	<meta name="author" content="Null,qiaozhanrong" />
-	<meta name="keywords" content="NEWorld,Forum" />
-	<meta name="description" content="The Forum of NEWorld" />
-	<title>The Forum of NEWorld</title>
-	<style>
-	body{padding:3% 25%;font-family: 'Microsoft YaHei';}
-	.main{margin:0 auto; padding:20px;}
-	p{margin:10px 5px;}
-	.topic:nth-child(even),.topic:hover{
-	background-color:#FAFAFA;
-	}
-	a{
-	color:#0099ff;
-	text-decoration:none;
-	}
-	a:hover{color:#bbb;}
-	</style>
-</head>
-<body>
+<?php include_once("func.php"); loadHeader(); ?>
 	<div class="main">
 		<div style="text-align:center">
 			<h1>The Forum of NEWorld</h1>
-			<p><a href="index.php" style="color:#233333;">普通版</a></p>
+			<p><a href="../index.php" style="color:#233333;">简约版</a></p>
 			<p>版本: 0.2.5<p>
+			<?php
+			$un=getUsername();
+			if($un==""){
+				echo '<a href="login.php">登录</a> | ';
+				echo '<a href="http://blog.neworldsite.gq/admin/register.php">注册</a>';
+			}else{
+				echo "<p>欢迎用户$un</p>";
+				echo '<a href="logout.php">退出</a>';
+			}
+			?>
 		</div>
 		<span style="margin: 20px"></span>
 			<?php
@@ -71,9 +59,5 @@
 				<p><input type="submit" value="发布" class="btn" style="width:200px" /></p>
 			</form>
 		</div>
-<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
 
-
-
-</body>
-</html>
+<?php loadFooter(); ?>

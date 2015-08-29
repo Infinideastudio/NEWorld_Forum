@@ -28,29 +28,8 @@ box-shadow:0 2px 10px #000000;
 }
 #main{
 background-color:#b4ffff;
-margin:0px auto;
-width:1050px;
-box-shadow:
-10px 0 50px #b4ffff,
--10px 0 50px #b4ffff;
-}
-#mainleft{
-width:75%;
-float:left;
-}
-#mainright{
-width:25%;
-float:left;
-}
-#footer{
-position:relative;
-text-shadow:0 0 10px #484848;
-background-color:#999999;
-margin:0px;
-padding:10px;
-text-align:center;
-box-shadow:0 -2px 10px #000000;
-clear:both;
+margin:0 15%;
+padding:20px;
 }
 .box{
 background-color:#ddffff;
@@ -71,10 +50,6 @@ background-color:#cceeee;
 background-color:#eeffff;
 }
 .btn{
-padding-left:30px;
-padding-right:30px;
-font-family:Arial,"微软雅黑","宋体";
-font-size:14px;
 color:#646464;
 border:0;
 background-color:#dddddd;

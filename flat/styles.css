@@ -1,0 +1,11 @@
+﻿body{padding:3% 25%;font-family: 'Microsoft YaHei';}
+.main{margin:0 auto; padding:20px;}
+p{margin:10px 5px;}
+.topic:nth-child(even),.topic:hover{
+	background-color:#FAFAFA;
+}
+a{
+	color:#0099ff;
+	text-decoration:none;
+}
+a:hover{color:#bbb;}
