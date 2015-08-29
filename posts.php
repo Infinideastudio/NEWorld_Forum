@@ -1,5 +1,5 @@
-<?php include_once("func.php"); loadHeader(); ?>
-	<a href="index.php">返回首页</a>
+﻿<?php include_once("func.php"); loadHeader(); ?>
+	<a href="javascript:history.go(-1)">返回上一页</a>
 	<?php
 	ConnectDb();
 
@@ -21,7 +21,7 @@
 				$pid=$contenta['PID'];
 				$un=$contenta['username'];
 	        	if($firstlevel) echo "<p>$count(<a href='posts.php?p=$pid'>PID $pid</a>;Username $un) ： $content</p>"; 
-	        	else echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "楼中楼(PID $pid;Username $un)：$content</p>";
+	        	else echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "楼中楼(<a href='posts.php?p=$pid'>PID $pid</a>;Username $un)：$content</p>";
 	        	show_replies($reply,$deep+1);
 	  	    }
 	    }
