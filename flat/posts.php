@@ -20,8 +20,8 @@
 				$content=$contenta['content'];
 				$pid=$contenta['PID'];
 				$un=$contenta['username'];
-	        	if($firstlevel) echo "<p>$count(PID $pid;Username $un) ： $content</p>"; 
-	        	else echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "楼中楼(PID $pid;Username $un)：$content</p>"; 
+	        	if($firstlevel) echo "<p>$count(<a href='posts.php?p=$pid'>PID $pid</a>;Username $un) ： $content</p>"; 
+	        	else echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "楼中楼(PID $pid;Username $un)：$content</p>";  
 	        	show_replies($reply,$deep+1);
 	  	    }
 	    }
