@@ -33,9 +33,9 @@ function DisconnectDb(){
 	mysql_close($con);
 }
 function filter($str, $canUseSometime){
-	$ret=str_replace($ret, "<", "[");
+	//$ret=str_replace($ret, "<", "[");
 	$ret=htmlspecialchars($str);
-	$ret=str_replace($ret, "<", "[");
+	//$ret=str_replace($ret, "<", "[");
 	return $ret;
 }
 
