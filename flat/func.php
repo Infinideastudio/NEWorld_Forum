@@ -33,28 +33,9 @@ function DisconnectDb(){
 	mysql_close($con);
 }
 function filter($str, $canUseSometime){
-	$ret=$str;
-	if($canUseSometime){
-		$usehtmltag=false;
-		if(substr($ret,0,12)=="USE HTML TAG"){
-			$ret=substr($ret,12);
-			$usehtmltag=true;
-		}
-		else{
-			$ret=htmlspecialchars($ret);
-		}
-
-			if($usehtmltag){
-				$ret=str_replace("script","",$ret);
-				$ret=str_replace("iframe","",$ret);
-				$ret=str_replace("style","",$ret);
-				$ret=str_replace("<!--","",$ret);
-			}
-
-	}
-	else{
-		$ret=htmlspecialchars($ret);
-	}
+	$ret=str_replace($ret, "<", "[");
+	$ret=htmlspecialchars($str);
+	$ret=str_replace($ret, "<", "[");
 	return $ret;
 }
 
