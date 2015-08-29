@@ -42,9 +42,9 @@
 
 			$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = 1"));
 
-			$postids = array_reverse(explode(",", $result['children']));
+			$postids = explode(",", $result['children']);
 				
-			foreach ($postids as $postid) {
+			foreach (array_reverse($postids) as $postid) {
 				if($postid!=""){
 					$row = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = $postid"));
 					echo "<div class='topic'>$postid  . {$row["username"]} <a href='posts.php?p={$row['PID']}' > {$row['title']} </a> <br />
