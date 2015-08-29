@@ -5,21 +5,19 @@
 	</div>
 	<div id="main">
 		<div style="margin:0 5%">
-			<p class="nmp">版本: 0.2.8</p>
-			<p class="nmp">更新内容：加入了首页的登录注册按钮，修复了一些BUG，修改了一些细节，添加了易于操作的回复楼中楼的功能（按回复上的PID xxx即可回复）<p>
-			<p class="nmp">
-			 <a href="flat/index.php">简约版</a> | 
-				<?php
-				$un=getUsername();
-				if($un==""){
-					echo '<a href="login.php">登录</a> | ';
-					echo '<a href="http://blog.neworldsite.gq/admin/register.php">注册</a>';
-				}else{
-					echo "$un | ";
-					echo '<a href="logout.php">退出</a>';
-				}
-				?>
-			</p>
+			<p>版本: 0.2.8</p>
+			<p>更新内容：加入了首页的登录注册按钮，修复了一些BUG，修改了一些细节，添加了易于操作的回复楼中楼的功能（按回复上的PID xxx即可回复）<p>
+			<a href="flat/index.php">简约版 </a>
+			<?php
+			$un=getUsername();
+			if($un==""){
+				echo '<a href="login.php">登录</a> | ';
+				echo '<a href="http://blog.neworldsite.gq/admin/register.php">注册</a>';
+			}else{
+				echo "<p>欢迎用户$un</p>";
+				echo '<a href="logout.php">退出</a>';
+			}
+			?>
 		</div>
 		<div class="box">
 
@@ -46,7 +44,7 @@
 
 			$postids = explode(",", $result['children']);
 				
-			foreach ($postids as $postid) {
+			foreach (array_reverse($postids) as $postid) {
 				if($postid!=""){
 					$row = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = $postid"));
 					echo "<div class='topic'>$postid  . {$row["username"]} <a href='posts.php?p={$row['PID']}' > {$row['title']} </a> <br />
