@@ -43,17 +43,14 @@ function filter($str, $canUseSometime){
 		else{
 			$ret=htmlspecialchars($ret);
 		}
-		if(substr($ret,0,11)=="USE ALL TAG"){
-			$ret=substr($ret,11);
-		}
-		else{
+
 			if($usehtmltag){
 				$ret=str_replace("script","",$ret);
 				$ret=str_replace("iframe","",$ret);
 				$ret=str_replace("style","",$ret);
 				$ret=str_replace("<!--","",$ret);
 			}
-		}
+
 	}
 	else{
 		$ret=htmlspecialchars($ret);
