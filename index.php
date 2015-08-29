@@ -42,7 +42,7 @@
 
 			$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = 1"));
 
-			$postids = explode(",", $result['children']);
+			$postids = array_reverse(explode(",", $result['children']));
 			var_dump($postids);
 			foreach ($postids as $postid) {
 				if($postid!=""){
