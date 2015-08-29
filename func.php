@@ -1,6 +1,6 @@
 ﻿<?php
 $con=0;
-function loadHeader($title="The forum of NEWorld"){
+function loadHeader($title="The Forum of NEWorld"){
 	echo '
 	<!DOCTYPE html>
 	<html lang="cn">
