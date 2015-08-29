@@ -34,6 +34,14 @@ box-shadow:
 10px 0 50px #b4ffff,
 -10px 0 50px #b4ffff;
 }
+#mainleft{
+width:75%;
+float:left;
+}
+#mainright{
+width:25%;
+float:left;
+}
 #footer{
 position:relative;
 text-shadow:0 0 10px #484848;
@@ -42,6 +50,7 @@ margin:0px;
 padding:10px;
 text-align:center;
 box-shadow:0 -2px 10px #000000;
+clear:both;
 }
 .box{
 background-color:#ddffff;

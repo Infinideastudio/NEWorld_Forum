@@ -5,7 +5,7 @@
 	<meta name="author" content="Null,qiaozhanrong" />
 	<meta name="keywords" content="NEWorld,Forum" />
 	<meta name="description" content="The Forum of NEWorld" />
-	<title>The forum of NEWorld</title>
+	<title>The Forum of NEWorld</title>
 	<style>
 	body{padding:3% 25%;font-family: 'Microsoft YaHei';}
 	.main{margin:0 auto; padding:20px;}
@@ -24,7 +24,7 @@
 	<div class="main">
 		<div style="text-align:center">
 			<h1>The Forum of NEWorld</h1>
-			<p><a href="index.php" style="color:#233333;">简约版</a></p>
+			<p><a href="index.php" style="color:#233333;">普通版</a></p>
 			<p>版本: 0.2.5<p>
 		</div>
 		<span style="margin: 20px"></span>
