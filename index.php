@@ -7,7 +7,7 @@
 		<div style="margin:0 5%">
 			<p>版本: 0.2.8</p>
 			<p>更新内容：加入了首页的登录注册按钮，修复了一些BUG，修改了一些细节，添加了易于操作的回复楼中楼的功能（按回复上的PID xxx即可回复）<p>
-			<a href="flat/index.php">简约版</a> |
+			<a href="flat/index.php">简约版 </a>
 			<?php
 			$un=getUsername();
 			if($un==""){
