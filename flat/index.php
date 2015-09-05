@@ -8,7 +8,7 @@
 			$un=getUsername();
 			if($un==""){
 				echo '<a href="login.php">登录</a> | ';
-				echo '<a href="http://blog.neworldsite.gq/admin/register.php">注册</a>';
+				echo '<a href="http://neblog.newinfinideas.com/admin/register.php">注册</a>';
 			}else{
 				echo "<p>欢迎用户$un</p>";
 				echo '<a href="logout.php">退出</a>';
