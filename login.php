@@ -25,7 +25,7 @@
 		    'password' => $_POST['pwd']
 		);
 		 
-		$response = Post('http://blog.neworldsite.gq/admin/islogin.php', $data);
+		$response = Post('http://neblog.newinfinideas.com/admin/islogin.php', $data);
 		setcookie('islogin',(int)$response);
 		setcookie('username',$_POST['username']);
 		if((int)$response==1){
@@ -42,5 +42,5 @@
 		<p><input type="password" name="pwd" id="pwd" placeholder="密码" style="width:100px;"></p>
 		<p><button type="submit">Login</button></p>
 	</form>
-	<a href="http://blog.neworldsite.gq/admin/register.php">没有账号？免费注册</a>
+	<a href="http://neblog.newinfinideas.com/admin/register.php">没有账号？免费注册</a>
 <?php loadFooter(); ?>
