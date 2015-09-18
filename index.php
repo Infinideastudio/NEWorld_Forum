@@ -25,29 +25,26 @@
 			ConnectDb();
 			if(mysql_num_rows(mysql_query("SHOW TABLES LIKE 'Posts'"))!=1){
 				$sql = "CREATE TABLE Posts(
-				PID int NOT NULL AUTO_INCREMENT,
+				PID int AUTO_INCREMENT,
 				PRIMARY KEY(PID),
 				username TINYTEXT,
 				title TINYTEXT,
 				content TEXT,
 				createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 				lastedittime TIMESTAMP,
-				children TEXT default '',
+				parent int,
 				replycount int default 0
 				)";
 				mysql_query($sql);
-				mysql_query("INSERT INTO Posts (username, title, content, children) VALUES ('system', 'main', '', '') ");
+				mysql_query("CREATE CLUSTERED INDEX parent_cindex ON Posts(parent) WITH ALLOW_DUP_ROW");
+				mysql_query("INSERT INTO Posts (username, title, content, parent) VALUES ('system', 'main', '', -1) ");
 				echo "POSTS INIT FINSHED!!!";
 			}
-
-			$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = 1"));
-
-			$postids = explode(",", $result['children']);
-				
-			foreach (array_reverse($postids) as $postid) {
-				if($postid!=""){
-					$row = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = $postid"));
-					echo "<div class='topic'>$postid  . {$row["username"]} <a href='posts.php?p={$row['PID']}' > {$row['title']} </a> <br />
+   
+			$results = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE parent = 0"));
+			foreach (array_reverse($results) as $result) {
+				if($result!=""){
+					echo "<div class='topic'>$result  . {$row["username"]} <a href='posts.php?p={$row['PID']}' > {$row['title']} </a> <br />
 					<span style='padding: 0 2em;'> </span> {$row['content']} <br /> 回复数： {$row['replycount']}  | 发布时间： {$row['createtime']}</div>";
 				}
 			}
