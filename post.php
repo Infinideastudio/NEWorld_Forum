@@ -30,7 +30,6 @@
 			break;
 		
 		case '2': //添加回帖
-		 /*
 			if(getUsername()==""){
 				echo '<div style="text-align:center">';
 				echo '<p>请先注册后再发帖</p>';
@@ -38,16 +37,13 @@
 				echo '</div>';
 				exit();
 			}
-			if (isset($_POST['pid'])) {
+			if ($_POST['title']!="" && $_POST['content']!=""){
+				$_POST['title']=filter($_POST['title'], true);
 				$_POST['content']=filter($_POST['content'], true);
-				mysql_query("INSERT INTO Posts (username, title, content, children) 
-							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '')");
-				$pids=mysql_fetch_array(mysql_query("select last_insert_id()"));
-				$pid=$pids[0];
-				mysql_query("UPDATE Posts SET children=concat(children,',{$pid}') WHERE PID = {$_POST['pid']}");
-				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID = {$_POST['pid']}");
+				mysql_query("INSERT INTO Posts (username, title, content, parent)
+							VALUES ('" . getUsername() . "', '" . $_POST['title'] . "', '" . $_POST['content'] . "', '" . $_POST['parent'] . "') ");
+				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID = " . $_POST['parent']);
 			}
-   */
 			break;
 	}
 	if (isset($_SERVER['HTTP_REFERER'])) {
