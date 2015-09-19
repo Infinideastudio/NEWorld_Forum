@@ -44,8 +44,8 @@
 			$results = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE parent = 0"));
 			foreach (array_reverse($results) as $result) {
 				if($result!=""){
-					echo "<div class='topic'>$result  . {$row["username"]} <a href='posts.php?p={$row['PID']}' > {$row['title']} </a> <br />
-					<span style='padding: 0 2em;'> </span> {$row['content']} <br /> 回复数： {$row['replycount']}  | 发布时间： {$row['createtime']}</div>";
+					echo "<div class='topic'>$result  . {$result["username"]} <a href='posts.php?p={$result['PID']}' > {$result['title']} </a> <br />
+					<span style='padding: 0 2em;'> </span> {$result['content']} <br /> 回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</div>";
 				}
 			}
 
