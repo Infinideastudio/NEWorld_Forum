@@ -1,8 +1,7 @@
 ﻿<?php include_once("func.php"); loadHeader(); ?>
-	<a href="javascript:history.go(-1)">返回上一页</a>
+ <a class="nmp" href="javascript:history.go(-1)">返回上一页</a>
 	<?php
 	ConnectDb();
-
 	$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID='" . $_GET['p'] . "'"));
  $pid=$result['PID'];
 	$un=$result['username'];
@@ -13,7 +12,7 @@
 	echo '<input type="hidden" name="username" value="' . $un . '" readonly="true">';
 	echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 	echo "<h1>" . $result['title'] . "</h1>";
-	echo '<p class="nmp">' . $result['content'] . '</p>';
+	echo '<p>' . $result['content'] . '</p>';
 	if($un==getUsername()){
 		echo '<input type="submit" value="删除" class="btn" />';
 	}
