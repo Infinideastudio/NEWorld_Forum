@@ -13,10 +13,19 @@ function loadHeader($title="The Forum of NEWorld"){
 		<title>'.$title.'</title>
 	</head>
 	<body>
+	<div id="header">
+		<h1 style="color:#ffffff;">The Forum of NEWorld</h1>
+		<h3>——by Null and qiaozhanrong</h3>
+	</div>
+	<div id="main">
 	';
 }
 function loadFooter(){
 	echo '
+	</div>
+	<div id="footer">
+	 CopyLEFT &copy; Infinideas 新创无际
+	</div>
 	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
 	</body>
 	</html>
