@@ -19,14 +19,12 @@
 				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID = 0");
 			}
 			break;
-
+   
 		case '1': //删除帖子
-		 /*
-			if (isset($_POST['pwd'])&&$_POST['pwd']=="fixedpwd") {
-				mysql_query("UPDATE Posts SET children=replace(children,',{$_POST['pid']},',',') WHERE PID = {$_POST['pidparent']}");
+			if ($_POST['username']=getUsername()) {
+				mysql_query("UPDATE Posts SET replycount=replycount-1 WHERE PID = " . $_POST['parent']);
 				mysql_query("DELETE FROM Posts WHERE PID='" . $_POST['pid'] . "'");
 			}
-   */
 			break;
 		
 		case '2': //添加回帖

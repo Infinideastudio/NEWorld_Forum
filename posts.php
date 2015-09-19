@@ -8,15 +8,24 @@
 	echo "<h1>" . $result['title'] . "</h1>";
 	echo "<p>" . $result['content'] . "</p>";
  
-	function show_replies($pid,$deep,$firstlevel=false){
-		$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $pid . "'");
+	function show_replies($ppid,$deep,$firstlevel=false){
+		$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "'");
 		$count=0;
 		while($result = mysql_fetch_array($results)){
 			$content=$result['content'];
 			$pid=$result['PID'];
 			$un=$result['username'];
+			echo '<form action="post.php" method="post">';
+			echo '<input type="hidden" name="type" value="1" readonly="true">';
+			echo '<input type="hidden" name="pid" value="' . $pid . '" readonly="true">';
+			echo '<input type="hidden" name="username" value="' . $un . '" readonly="true">';
+			echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "<a href='posts.php?p=$pid'>PID $pid</a>;Username $un: $content</p>";
-			show_replies($result['PID'],$deep+1);
+			if($un=getUsername()){
+			 echo '<input type="submit" value="删除" class="btn" />';
+			}
+			echo '</form>';
+			show_replies($pid,$deep+1);
 		}
 	}
 	show_replies($_GET['p'],0,true);
