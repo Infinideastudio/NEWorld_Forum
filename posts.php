@@ -13,7 +13,7 @@
 	echo '<input type="hidden" name="username" value="' . $un . '" readonly="true">';
 	echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 	echo "<h1>" . $result['title'] . "</h1>";
-	echo "<p>" . $result['content'] . "</p>";
+	echo '<p class="nmp">' . $result['content'] . '</p>';
 	if($un==getUsername()){
 		echo '<input type="submit" value="删除" class="btn" />';
 	}
