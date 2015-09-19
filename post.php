@@ -34,6 +34,7 @@
 		case '1': //删除帖子
 			if ($_POST['username']=getUsername()) {
 				mysql_query("UPDATE Posts SET replycount=replycount-1 WHERE PID = " . $_POST['parent']);
+				mysql_query("DELETE FROM Posts WHERE PID='" . $_POST['pid'] . "'");
 				delete_replies($_POST['pid']);
 			}
 			break;
