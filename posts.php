@@ -4,9 +4,20 @@
 	ConnectDb();
 
 	$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID='" . $_GET['p'] . "'"));
-
+ $pid=$result['PID'];
+	$un=$result['username'];
+	$ppid=$result['parent'];
+	echo '<form action="post.php" method="post">';
+	echo '<input type="hidden" name="type" value="1" readonly="true">';
+	echo '<input type="hidden" name="pid" value="' . $pid . '" readonly="true">';
+	echo '<input type="hidden" name="username" value="' . $un . '" readonly="true">';
+	echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 	echo "<h1>" . $result['title'] . "</h1>";
 	echo "<p>" . $result['content'] . "</p>";
+	if($un=getUsername()){
+		echo '<input type="submit" value="删除" class="btn" />';
+	}
+	echo '</form>';
  
 	function show_replies($ppid,$deep,$firstlevel=false){
 		$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "'");
@@ -20,9 +31,11 @@
 			echo '<input type="hidden" name="pid" value="' . $pid . '" readonly="true">';
 			echo '<input type="hidden" name="username" value="' . $un . '" readonly="true">';
 			echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
-			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "<a href='posts.php?p=$pid'>PID $pid</a>;Username $un: $content</p>";
+			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
+			echo "<a href='posts.php?p=$pid'>PID $pid</a>;Username $un: $content</p>";
 			if($un=getUsername()){
-			 echo '<input type="submit" value="删除" class="btn" />';
+				echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
+			 echo '<input type="submit" value="删除" class="btn" /></p>';
 			}
 			echo '</form>';
 			show_replies($pid,$deep+1);
