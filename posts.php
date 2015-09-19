@@ -14,7 +14,7 @@
 	echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 	echo "<h1>" . $result['title'] . "</h1>";
 	echo "<p>" . $result['content'] . "</p>";
-	if($un=getUsername()){
+	if($un==getUsername()){
 		echo '<input type="submit" value="删除" class="btn" />';
 	}
 	echo '</form>';
@@ -33,7 +33,7 @@
 			echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
 			echo "<a href='posts.php?p=$pid'>PID $pid</a>;Username $un: $content</p>";
-			if($un=getUsername()){
+			if($un==getUsername()){
 				echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
 			 echo '<input type="submit" value="删除" class="btn" /></p>';
 			}

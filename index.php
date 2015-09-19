@@ -20,7 +20,7 @@
 			?>
 		</div>
 		<div class="box">
-
+   
 			<?php
 			ConnectDb();
 			if(mysql_num_rows(mysql_query("SHOW TABLES LIKE 'Posts'"))!=1){
