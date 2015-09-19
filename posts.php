@@ -23,7 +23,7 @@
 
 	DisconnectDb();
 	?>
- 
+	
 	<form action="post.php" method="post">
 		<input type="hidden" name="type" value="2" readonly="true">
 		<input type="hidden" name="pid" value="<?php echo $_GET['p']; ?>" readonly="true">

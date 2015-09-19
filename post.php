@@ -37,11 +37,10 @@
 				echo '</div>';
 				exit();
 			}
-			if ($_POST['title']!="" && $_POST['content']!=""){
-				$_POST['title']=filter($_POST['title'], true);
+			if ($_POST['content']!=""){
 				$_POST['content']=filter($_POST['content'], true);
 				mysql_query("INSERT INTO Posts (username, title, content, parent)
-							VALUES ('" . getUsername() . "', '" . $_POST['title'] . "', '" . $_POST['content'] . "', '" . $_POST['pid'] . "') ");
+							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '" . $_POST['pid'] . "') ");
 				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID = " . $_POST['pid']);
 			}
 			break;
