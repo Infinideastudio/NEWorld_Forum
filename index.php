@@ -41,12 +41,12 @@
 				echo "POSTS INIT FINSHED!!!";
 			}
    
-			$results = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE parent = 0"));
-			foreach (array_reverse($results) as $result) {
+			$results = mysql_query("SELECT * FROM Posts WHERE parent = 0");
+			while($result = mysql_fetch_array($results)){
 				echo "<div class='topic'>{$result['PID']}. {$result["username"]} <a href='posts.php?p={$result['PID']}' > {$result['title']} </a> <br />
 				<span style='padding: 0 2em;'> </span> {$result['content']} <br /> 回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</div>";
 			}
-
+   
 			DisconnectDb();
 			?>
 
