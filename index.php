@@ -25,15 +25,15 @@
 			ConnectDb();
 			if(mysql_num_rows(mysql_query("SHOW TABLES LIKE 'Posts'"))!=1){
 				$sql = "CREATE TABLE Posts(
-				PID int AUTO_INCREMENT,
+				PID INT AUTO_INCREMENT,
 				PRIMARY KEY(PID),
 				username TINYTEXT,
 				title TINYTEXT,
 				content TEXT,
 				createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				lastedittime TIMESTAMP,
-				parent int,
-				replycount int default 0
+				lastedittime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+				parent INT,
+				replycount INT DEFAULT 0
 				)";
 				mysql_query($sql);
 				mysql_query("CREATE CLUSTERED INDEX parent_cindex ON Posts(parent) WITH ALLOW_DUP_ROW");

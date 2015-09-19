@@ -11,12 +11,11 @@
 				echo '</div>';
 				exit();
 			}
-
-			if (isset($_POST['title'])&&$_POST['title']!="" && $_POST['content']!=""){
+			if ($_POST['title']!="" && $_POST['content']!=""){
 				$_POST['title']=filter($_POST['title'], true);
 				$_POST['content']=filter($_POST['content'], true);
 				mysql_query("INSERT INTO Posts (username, title, content, parent)
-							VALUES ('" . getUsername() . "', '" . $_POST['title'] . "', '" . $_POST['content'] . "', 0"));
+							VALUES ('" . getUsername() . "', '" . $_POST['title'] . "', '" . $_POST['content'] . "', 0) ");
 				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID = 0");
 			}
 			break;
