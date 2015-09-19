@@ -7,24 +7,17 @@
 
 	echo "<h1>" . $result['title'] . "</h1>";
 	echo "<p>" . $result['content'] . "</p>";
-
+ 
 	function show_replies($pid,$deep,$firstlevel=false){
-		$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID='" . $pid . "'"));
-		if($result['children']==""||$result['children']==",") return;
-		$replys=explode(",",$result['children']);
+		$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $pid . "'");
 		$count=0;
-	 	foreach ($replys as $reply){
-	 		$count=$count+1;
-	 	    if($count!=1){
-	 	    	$contenta = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID='" . $reply . "'"));
-				    $content=$contenta['content'];
-				    $pid=$contenta['PID'];
-				    $un=$contenta['username'];
-	        	if($firstlevel) echo "<p>$count(<a href='posts.php?p=$pid'>PID $pid</a>;Username $un) ： $content</p>"; 
-	        	else echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "楼中楼(<a href='posts.php?p=$pid'>PID $pid</a>;Username $un)：$content</p>";
-	        	show_replies($reply,$deep+1);
-	  	    }
-	    }
+		while($result = mysql_fetch_array($results)){
+			$content=$result['content'];
+			$pid=$result['PID'];
+			$un=$result['username'];
+			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "<a href='posts.php?p=$pid'>PID $pid</a>;Username $un: $content</p>";
+			show_replies($result['PID'],$deep+1);
+		}
 	}
 	show_replies($_GET['p'],0,true);
 
