@@ -33,9 +33,6 @@
  
 	<form action="post.php" method="post">
 		<input type="hidden" name="type" value="2" readonly="true">
-		<?php
-		echo '<input type="hidden" name="parent" value="'.$pid.'" readonly="true">';
-		?>
 		<input type="hidden" name="pid" value="<?php echo $_GET['p']; ?>" readonly="true">
 		<textarea name="content" id="content" placeholder="内容" required="true" style="resize: none; width:500px; height: 300px;"></textarea>
 		<p><button type="submit">回复</button></p>
