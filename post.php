@@ -1,8 +1,19 @@
 ﻿<?php
 	include_once("func.php");
 	ConnectDb();
+	
+	function delete_replies($ppid){
+		$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "'");
+		$count=0;
+		while($result = mysql_fetch_array($results)){
+			$pid=$result['PID'];
+			mysql_query("DELETE FROM Posts WHERE PID='" . $pid . "'");
+			delete_replies($pid);
+		}
+	}
+	
 	switch ($_POST['type']) {
-
+  
 		case '0': //新建主题
 			if(getUsername()==""){
 				echo '<div style="text-align:center">';
@@ -23,7 +34,7 @@
 		case '1': //删除帖子
 			if ($_POST['username']=getUsername()) {
 				mysql_query("UPDATE Posts SET replycount=replycount-1 WHERE PID = " . $_POST['parent']);
-				mysql_query("DELETE FROM Posts WHERE PID='" . $_POST['pid'] . "'");
+				delete_replies($_POST['pid']);
 			}
 			break;
 		
