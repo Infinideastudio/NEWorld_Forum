@@ -57,12 +57,12 @@
 			if ($_POST['content']!=""){
 				$_POST['content']=filter($_POST['content'], true);
 				mysql_query("UPDATE Posts SET replycount=replycount+1, maxfloor=maxfloor+1 WHERE PID = " . $_POST['pid']);
-				$floor=mysql_query("SELECT maxfloor FROM Posts WHERE PID = " . $_POST['pid']);
+				$parentrow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = " . $_POST['pid']));
 				mysql_query("INSERT INTO Posts (username, title, content, parent, floor)
-							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '" . $_POST['pid'] . "', " . $floor . ") ");
+							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '" . $_POST['pid'] . "', " . $parentrow['maxfloor'] . ") ");
 				mysql_query("UPDATE Posts SET lastedittime=createtime WHERE PID = LAST_INSERT_ID()");
-				$curtime=mysql_query("SELECT lastedittime FROM Posts WHERE PID = LAST_INSERT_ID()");
-				mysql_query("UPDATE Posts SET lastreplytime=" . $curtime . " WHERE PID = " . findroot($_POST['pid']));
+				$currow=mysql_query("SELECT * FROM Posts WHERE PID = LAST_INSERT_ID()");
+				mysql_query("UPDATE Posts SET lastreplytime=" . $currow['createtime'] . " WHERE PID = " . findroot($_POST['pid']));
 			}
 			break;
 	}
