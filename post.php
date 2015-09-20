@@ -13,7 +13,8 @@
 	}
 	
 	function findroot($pid){
-		$ppid=mysql_query("SELECT parent FROM Posts WHERE PID = " . $pid);
+		$currow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = " . $pid));
+		$ppid=$currow['parent'];
 		if($ppid==0)return $pid;
 		return findroot($ppid);
 	}
@@ -61,7 +62,7 @@
 				mysql_query("INSERT INTO Posts (username, title, content, parent, floor)
 							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '" . $_POST['pid'] . "', " . $parentrow['maxfloor'] . ") ");
 				mysql_query("UPDATE Posts SET lastedittime=createtime WHERE PID = LAST_INSERT_ID()");
-				$currow=mysql_query("SELECT * FROM Posts WHERE PID = LAST_INSERT_ID()");
+				$currow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = LAST_INSERT_ID()"));
 				mysql_query("UPDATE Posts SET lastreplytime=" . $currow['createtime'] . " WHERE PID = " . findroot($_POST['pid']));
 			}
 			break;

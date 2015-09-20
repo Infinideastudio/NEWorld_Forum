@@ -31,12 +31,14 @@
 			echo '<input type="hidden" name="username" value="' . $un . '" readonly="true">';
 			echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
-			echo "<a href='posts.php?p=$pid'>PID $pid</a>;Username $un: $content</p>";
+			echo "$un: $content</p>";
+			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
+			echo "<a href='posts.php?p=$pid'>回复</a>";
 			if($un==getUsername()){
 				echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
-			 echo '<input type="submit" value="删除" class="btn" /></p>';
+			 echo '<input type="submit" value="删除" class="btn" />';
 			}
-			echo '</form>';
+			echo '</p></form>';
 			show_replies($pid,$deep+1);
 		}
 	}
