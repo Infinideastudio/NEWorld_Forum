@@ -1,15 +1,14 @@
 ﻿<?php
 $con=0;
 function loadHeader($title="The Forum of NEWorld"){
-	echo '
-	<!DOCTYPE html>
+	echo '<!DOCTYPE html>
 	<html lang="cn">
 	<head>
-		<meta charset="UTF-8">
+		<meta charset="UTF-8" />
 		<meta name="author" content="Null,qiaozhanrong" />
 		<meta name="keywords" content="NEWorld,Forum" />
 		<meta name="description" content="The Forum of NEWorld" />
-		<link rel="stylesheet" type="text/css" href="styles.css">
+		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<title>'.$title.'</title>
 	</head>
 	<body>
@@ -17,24 +16,21 @@ function loadHeader($title="The Forum of NEWorld"){
 		<h1 style="color:#ffffff;">The Forum of NEWorld</h1>
 		<h3>——by Null and qiaozhanrong</h3>
 	</div>
-	<div id="main">
-	';
+	<div id="main">';
 }
 function loadFooter(){
-	echo '
-	</div>
+	echo '</div>
 	<div id="footer">
 	 CopyLEFT &copy; Infinideas 新创无际
 	</div>
 	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
 	</body>
-	</html>
-	';
+	</html>';
 }
 function ConnectDb(){
 	Global $con;
-$con = mysql_connect("10.4.26.93","umwL1o3zEYZqG","pmbY5i0FKqqEX");
-	mysql_select_db("d4e0d8a0deecf44fbb10e95159892f968", $con);
+ $con = mysql_connect("10.4.26.93","umwL1o3zEYZqG","pmbY5i0FKqqEX");
+	mysql_select_db("d4e0d8a0deecf44fbb10e95159892f968",$con);
 }
 function DisconnectDb(){
 	Global $con;
