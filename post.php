@@ -12,6 +12,12 @@
 		}
 	}
 	
+	function findroot($pid){
+		$ppid=mysql_query("SELECT parent FROM Posts WHERE PID = " . $pid);
+		if($ppid==0)return $pid;
+		return findroot($ppid);
+	}
+	
 	switch ($_POST['type']) {
   
 		case '0': //新建主题
@@ -25,16 +31,17 @@
 			if ($_POST['title']!="" && $_POST['content']!=""){
 				$_POST['title']=filter($_POST['title'], true);
 				$_POST['content']=filter($_POST['content'], true);
+				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID = 0");
 				mysql_query("INSERT INTO Posts (username, title, content, parent)
 							VALUES ('" . getUsername() . "', '" . $_POST['title'] . "', '" . $_POST['content'] . "', 0) ");
-				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID = 0");
+				mysql_query("UPDATE Posts SET lastedittime=createtime, lastreplytime=createtime WHERE PID = LAST_INSERT_ID()");
 			}
 			break;
    
 		case '1': //删除帖子
 			if ($_POST['username']==getUsername()) {
 				mysql_query("UPDATE Posts SET replycount=replycount-1 WHERE PID = " . $_POST['parent']);
-				mysql_query("DELETE FROM Posts WHERE PID='" . $_POST['pid'] . "'");
+				mysql_query("DELETE FROM Posts WHERE PID = '" . $_POST['pid'] . "'");
 				delete_replies($_POST['pid']);
 			}
 			break;
@@ -49,9 +56,13 @@
 			}
 			if ($_POST['content']!=""){
 				$_POST['content']=filter($_POST['content'], true);
-				mysql_query("INSERT INTO Posts (username, title, content, parent)
-							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '" . $_POST['pid'] . "') ");
-				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID = " . $_POST['pid']);
+				mysql_query("UPDATE Posts SET replycount=replycount+1, maxfloor=maxfloor+1 WHERE PID = " . $_POST['pid']);
+				$floor=mysql_query("SELECT maxfloor FROM Posts WHERE PID = " . $_POST['pid']);
+				mysql_query("INSERT INTO Posts (username, title, content, parent, floor)
+							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '" . $_POST['pid'] . "', " . $floor . ") ");
+				mysql_query("UPDATE Posts SET lastedittime=createtime WHERE PID = LAST_INSERT_ID()");
+				$curtime=mysql_query("SELECT lastedittime FROM Posts WHERE PID = LAST_INSERT_ID()");
+				mysql_query("UPDATE Posts SET lastreplytime=" . $curtime . " WHERE PID = " . findroot($_POST['pid']));
 			}
 			break;
 	}

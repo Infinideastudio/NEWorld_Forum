@@ -19,7 +19,7 @@
 	echo '</form>';
  
 	function show_replies($ppid,$deep,$firstlevel=false){
-		$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "'");
+		$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "' ORDER BY floor ASC");
 		$count=0;
 		while($result = mysql_fetch_array($results)){
 			$content=$result['content'];
