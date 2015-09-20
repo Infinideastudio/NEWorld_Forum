@@ -55,6 +55,8 @@
 				echo '</div>';
 				exit();
 			}
+			echo "root=" . findroot($_POST['pid']);
+			/*
 			if ($_POST['content']!=""){
 				$_POST['content']=filter($_POST['content'], true);
 				mysql_query("UPDATE Posts SET replycount=replycount+1, maxfloor=maxfloor+1 WHERE PID = " . $_POST['pid']);
@@ -65,6 +67,7 @@
 				$currow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = LAST_INSERT_ID()"));
 				mysql_query("UPDATE Posts SET lastreplytime=" . $currow['createtime'] . " WHERE PID = " . findroot($_POST['pid']));
 			}
+			*/
 			break;
 	}
 	if (isset($_SERVER['HTTP_REFERER'])) {
