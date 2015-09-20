@@ -33,9 +33,8 @@
 			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
 			echo "$un: $content</p>";
 			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
-			echo "<a href='posts.php?p=$pid'>回复</a>";
+			echo '<input type="button" value="回复" onclick="window.location=\'posts.php?p=' . $pid . '\';" class="btn" />';
 			if($un==getUsername()){
-				echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
 			 echo '<input type="submit" value="删除" class="btn" />';
 			}
 			echo '</p></form>';
