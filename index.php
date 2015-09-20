@@ -1,17 +1,15 @@
 <?php include_once("func.php"); loadHeader(); ?>
 <div style="margin:0 5%">
-	<p>版本: 0.2.8</p>
-	<p>更新内容：加入了首页的登录注册按钮，修复了一些BUG，修改了一些细节，添加了易于操作的回复楼中楼的功能（按回复上的PID xxx即可回复）<p>
-	<a href="flat/index.php">简约版 </a>
+	<a href="flat/index.php">切换到简约版</a> | 
 	<?php
-	$un=getUsername();
-	if($un==""){
-		echo '<input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
-		echo '    <input type="button" value="注册" onclick="window.location=\'http://neblog.newinfinideas.com/admin/register.php\';" class="btn" />';
-	}else{
-		echo "<p>欢迎用户$un</p>";
-		echo '    <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
-	}
+		$un=getUsername();
+		if($un==""){
+			echo '<input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
+			echo '    <input type="button" value="注册" onclick="window.location=\'http://neblog.newinfinideas.com/admin/register.php\';" class="btn" />';
+		}else{
+			echo "<p>欢迎用户$un</p>";
+			echo '    <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
+		}
 	?>
 </div>
 <div class="box">
