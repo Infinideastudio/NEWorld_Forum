@@ -6,11 +6,11 @@
 	<?php
 	$un=getUsername();
 	if($un==""){
-		echo '<a href="login.php">登录</a> | ';
-		echo '<a href="http://neblog.newinfinideas.com/admin/register.php">注册</a>';
+		echo '<input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
+		echo '    <input type="button" value="注册" onclick="window.location=\'http://neblog.newinfinideas.com/admin/register.php\';" class="btn" />';
 	}else{
 		echo "<p>欢迎用户$un</p>";
-		echo '<a href="logout.php">退出</a>';
+		echo '    <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
 	}
 	?>
 </div>

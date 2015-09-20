@@ -35,7 +35,7 @@
 			echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep);
 			echo '<input type="button" value="回复" onclick="window.location=\'posts.php?p=' . $pid . '\';" class="btn" />';
 			if($un==getUsername()){
-			 echo '  <input type="submit" value="删除" class="btn" />';
+			 echo '    <input type="submit" value="删除" class="btn" />';
 			}
 			echo '</p></form>';
 			show_replies($pid,$deep+1);
