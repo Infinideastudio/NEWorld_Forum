@@ -1,8 +1,10 @@
 ﻿<?php include_once("func.php"); loadHeader(); ?>
- <a class="nmp" href="javascript:history.go(-1)">返回上一页</a>
+	<div style="margin:0 5%">
+		<a class="nmp" href="javascript:history.go(-1)">返回上一页</a>
+	</div>
 	<?php
 	ConnectDb();
-	$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID='" . $_GET['p'] . "'"));
+	$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = '" . $_GET['p'] . "'"));
  $pid=$result['PID'];
 	$un=$result['username'];
 	$ppid=$result['parent'];
