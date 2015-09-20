@@ -16,7 +16,7 @@
 		$currow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = " . $pid));
 		$ppid=$currow['parent'];
 		if($ppid==0)return $pid;
-		return findroot($ppid);
+		else return findroot($ppid);
 	}
 	
 	switch ($_POST['type']) {
