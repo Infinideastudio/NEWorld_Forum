@@ -1,16 +1,21 @@
 <?php include_once("func.php");loadHeader(); ?>
-<div style="margin:0 5%">
-	<a href="flat/index.php">切换到简约版</a>
-	<?php
+<div class="main">
+	<div style="text-align:center">
+		<h1>NEWorld Forum</h1>
+		<p><a href="../index.php" style="color:#233333;">切换到普通版</a></p>
+		<p>Alpha 0.3.1<p>
+		<?php
 		$un=getUsername();
-		if($un!=""){
-			echo " | $un";
-			echo ' | <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
+		if($un==""){
+			echo '<a href="login.php">登录</a> | ';
+			echo '<a href="http://neblog.newinfinideas.com/admin/register.php">注册</a>';
+		}else{
+			echo "<p>欢迎用户$un</p>";
+			echo '<a href="logout.php">退出</a>';
 		}
-	?>
-</div>
-<div class="box">
-	
+		?>
+	</div>
+	<span style="margin: 20px"></span>
 	<?php
 		ConnectDb();
 		if(mysql_num_rows(mysql_query("SHOW TABLES LIKE 'Posts'"))!=1){
@@ -41,7 +46,6 @@
 		}
 		DisconnectDb();
 	?>
-
 </div>
 
 <div class="box">
