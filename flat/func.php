@@ -1,6 +1,6 @@
 ﻿<?php
 $con=0;
-function loadHeader($title="The forum of NEWorld"){
+function loadHeader($title="NEWorld Forum"){
 	echo '
 	<!DOCTYPE html>
 	<html lang="cn">
@@ -8,7 +8,7 @@ function loadHeader($title="The forum of NEWorld"){
 		<meta charset="UTF-8">
 		<meta name="author" content="Null,qiaozhanrong" />
 		<meta name="keywords" content="NEWorld,Forum" />
-		<meta name="description" content="The Forum of NEWorld" />
+		<meta name="description" content="NEWorld Forum" />
 		<link rel="stylesheet" type="text/css" href="styles.css">
 		<title>'.$title.'</title>
 	</head>

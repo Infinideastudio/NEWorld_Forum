@@ -1,40 +1,66 @@
-﻿<?php include_once("func.php"); loadHeader(); ?>
-	<a href="javascript:history.go(-1)">返回上一页</a>
-	<?php
-	ConnectDb();
+﻿<?php
+include_once("func.php");
+ConnectDb();
+$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = '" . $_GET['p'] . "'"));
+$pid=$result['PID'];
+$un=$result['username'];
+$ppid=$result['parent'];
+loadHeader($result['title'] . " - NEWorld Forum");
+echo '<form action="post.php" method="post">';
+echo '<input type="hidden" name="type" value="1" readonly="true">';
+echo '<input type="hidden" name="pid" value="' . $pid . '" readonly="true">';
+echo '<input type="hidden" name="username" value="' . $un . '" readonly="true">';
+echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
+echo "<h1>" . $result['title'] . "</h1>";
+echo '<p>' . $result['content'] . '</p>';
+if($un==getUsername()){
+	echo '<p><input type="submit" value="删除" class="btn" /></p>';
+}
+echo '</form>';
 
-	$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID='" . $_GET['p'] . "'"));
-
-	echo "<h1>" . $result['title'] . "</h1>";
-	echo "<p>" . $result['content'] . "</p>";
-
-	function show_replies($pid,$deep,$firstlevel=false){
-		$result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID='" . $pid . "'"));
-		if($result['children']==""||$result['children']==",") return;
-		$replys=explode(",",$result['children']);
-		$count=0;
-	 	foreach ($replys as $reply){
-	 		$count=$count+1;
-	 	    if($count!=1){
-	 	    	$contenta = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID='" . $reply . "'"));
-				$content=$contenta['content'];
-				$pid=$contenta['PID'];
-				$un=$contenta['username'];
-	        	if($firstlevel) echo "<p>$count(<a href='posts.php?p=$pid'>PID $pid</a>;Username $un) ： $content</p>"; 
-	        	else echo "<p>" . str_repeat("<span style='margin:0 2em;display:inline-block;'>",$deep) . "楼中楼(<a href='posts.php?p=$pid'>PID $pid</a>;Username $un)：$content</p>";  
-	        	show_replies($reply,$deep+1);
-	  	    }
-	    }
+function show_replies($ppid,$deep,$firstlevel=false){
+	$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "' ORDER BY floor ASC");
+	$count=0;
+	while($result = mysql_fetch_array($results)){
+		$content=$result['content'];
+		$pid=$result['PID'];
+		$un=$result['username'];
+		echo '<div class="topic">
+		<form action="post.php" method="post">
+		<input type="hidden" name="type" value="1" readonly="true">
+		<input type="hidden" name="pid" value="' . $pid . '" readonly="true">
+		<input type="hidden" name="username" value="' . $un . '" readonly="true">
+		<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
+		echo "<p class='nmp'>[{$result['floor']}楼] {$result['username']}: {$result['content']}<br />
+			回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</p>";
+		echo '<input type="button" value="回复" class="btn" onclick="window.location=\'posts.php?p=' . $pid . '\';" class="btn" />';
+		if($un==getUsername()){
+			echo '&nbsp;&nbsp;<input type="submit" value="删除" class="btn" />';
+		}
+		echo '</form></div>';
+		if($result['replycount']){
+			echo '<br /><div class="box" style="margin:0px;padding:8px;width:98%;position:relative;z-index:'.$deep.';">';
+			show_replies($pid,$deep+1);
+			echo '</div>';
+		}
 	}
+}
+
+if($result['replycount']){
+	echo '<div class="box" style="padding:8px;">';
 	show_replies($_GET['p'],0,true);
+	echo '</div>';
+}
 
-	DisconnectDb();
-	?>
+DisconnectDb();
+?>
 
+<div class="box">
 	<form action="post.php" method="post">
 		<input type="hidden" name="type" value="2" readonly="true">
 		<input type="hidden" name="pid" value="<?php echo $_GET['p']; ?>" readonly="true">
-		<textarea name="content" id="content" placeholder="内容" required="true" style="resize: none; width:500px; height: 300px;"></textarea>
-		<p><button type="submit">回复</button></p>
+		<textarea name="content" id="content" placeholder="内容" required="true" style="resize:none;width:99%;height:300px;"></textarea>
+		<p><button type="submit" class="btn">回复</button></p>
 	</form>
+</div>
 <?php loadFooter(); ?>
