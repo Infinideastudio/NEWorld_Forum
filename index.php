@@ -1,14 +1,11 @@
-<?php include_once("func.php"); loadHeader(); ?>
+<?php include_once("func.php");loadHeader(); ?>
 <div style="margin:0 5%">
-	<a href="flat/index.php">切换到简约版</a> | 
+	<a href="flat/index.php">切换到简约版</a>
 	<?php
 		$un=getUsername();
-		if($un==""){
-			echo '<input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
-			echo '    <input type="button" value="注册" onclick="window.location=\'http://neblog.newinfinideas.com/admin/register.php\';" class="btn" />';
-		}else{
-			echo "<p>欢迎用户$un</p>";
-			echo '    <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
+		if($un!=""){
+			echo " | $un";
+			echo ' | <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
 		}
 	?>
 </div>

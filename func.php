@@ -1,20 +1,30 @@
-﻿<?php
+<?php
 $con=0;
-function loadHeader($title="The Forum of NEWorld"){
+function loadHeader($title="NEWorld Forum"){
 	echo '<!DOCTYPE html>
 	<html lang="cn">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="author" content="Null,qiaozhanrong" />
-		<meta name="keywords" content="NEWorld,Forum" />
-		<meta name="description" content="The Forum of NEWorld" />
+		<meta http-equiv=”content-type” content=”text/html;charset=UTF-8″ />
+		<meta name="author" content="Null, qiaozhanrong" />
+		<meta name="keywords" content="NEWorld, Forum" />
+		<meta name="description" content="NEWorld Forum" />
 		<link rel="stylesheet" type="text/css" href="styles.css" />
 		<title>'.$title.'</title>
 	</head>
 	<body>
 	<div id="header">
-		<h1 style="color:#ffffff;">The Forum of NEWorld</h1>
-		<h3>——by Null and qiaozhanrong</h3>
+		<div style="margin:0 20%">
+			<h1 class="nmp" style="color:#ffffff;float:left;">NEWorld Forum</h1>
+			&nbsp;Alpha 0.3.1
+			<div id="navi">
+				<div class="item' . ($_SERVER['REQUEST_URI']=="/index.php"?"_selected":"") . '" onclick="window.open(\'index.php\',\'_self\')">论坛首页</div>
+				<div class="item' . ($_SERVER['REQUEST_URI']=="/login.php"?"_selected":"") . '" onclick="window.open(\'login.php\',\'_self\')">登录</div>
+				<div class="item" onclick="window.open(\'http://neblog.newinfinideas.com/admin/register.php\',\'_self\')">注册</div>
+				<div class="item" onclick="window.open(\'http://www.newinfinideas.com\',\'_self\')">工作室官网</div>
+				<div class="item" onclick="window.open(\'http://neblog.newinfinideas.com\',\'_self\')">BLOG</div>
+			</div>
+		</div>
 	</div>
 	<div id="main">';
 }

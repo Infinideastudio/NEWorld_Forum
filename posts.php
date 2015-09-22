@@ -1,9 +1,11 @@
-﻿<?php include_once("func.php"); loadHeader();
+<?php
+include_once("func.php");
 ConnectDb();
 $result = mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = '" . $_GET['p'] . "'"));
 $pid=$result['PID'];
 $un=$result['username'];
 $ppid=$result['parent'];
+loadHeader($result['title'] . " - NEWorld Forum");
 echo '<form action="post.php" method="post">';
 echo '<input type="hidden" name="type" value="1" readonly="true">';
 echo '<input type="hidden" name="pid" value="' . $pid . '" readonly="true">';
