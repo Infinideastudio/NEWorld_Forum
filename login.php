@@ -37,10 +37,14 @@
 		}
 	}
 	?>
-	<form action="login.php" method="post">
-		<p><input type="text" name="username" id="username" placeholder="用户名" style="width:100px;"></p>
-		<p><input type="password" name="pwd" id="pwd" placeholder="密码" style="width:100px;"></p>
-		<p><button type="submit">Login</button></p>
-	</form>
-	<a href="http://neblog.newinfinideas.com/admin/register.php">没有账号？免费注册</a>
+	<div style="text-align:center;">
+		<div class="box" style="width:200px;margin:10px auto;">
+			<form action="login.php" method="post">
+				<p><input type="text" name="username" id="username" placeholder="用户名" class="txtbox" style="width:100px;"></p>
+				<p><input type="password" name="pwd" id="pwd" placeholder="密码" class="txtbox" style="width:100px;"></p>
+				<p><button type="submit" class="btn">登录</button></p>
+			</form>
+			<a href="http://neblog.newinfinideas.com/admin/register.php">没有账号？免费注册</a>
+		</div>
+	</div>
 <?php loadFooter(); ?>

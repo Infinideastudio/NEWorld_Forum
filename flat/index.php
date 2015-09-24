@@ -3,7 +3,7 @@
 	<div style="text-align:center">
 		<h1>NEWorld Forum</h1>
 		<p><a href="../index.php" style="color:#233333;">切换到普通版</a></p>
-		<p>Alpha 0.3.1<p>
+		<p>Alpha 0.3.2<p>
 		<?php
 		$un=getUsername();
 		if($un==""){

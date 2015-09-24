@@ -16,9 +16,9 @@ function loadHeader($title="NEWorld Forum"){
 	<div id="header">
 		<div style="margin:0 20%">
 			<h1 class="nmp" style="color:#ffffff;float:left;">NEWorld Forum</h1>
-			&nbsp;Alpha 0.3.1
+			&nbsp;Alpha 0.3.2
 			<div id="navi">
-				<div class="item' . ($_SERVER['REQUEST_URI']=="/index.php"?"_selected":"") . '" onclick="window.open(\'index.php\',\'_self\')">论坛首页</div>
+				<div class="item' . ($_SERVER['REQUEST_URI']=="/index.php" || $_SERVER['REQUEST_URI']=="/"?"_selected":"") . '" onclick="window.open(\'index.php\',\'_self\')">论坛首页</div>
 				<div class="item' . ($_SERVER['REQUEST_URI']=="/login.php"?"_selected":"") . '" onclick="window.open(\'login.php\',\'_self\')">登录</div>
 				<div class="item" onclick="window.open(\'http://neblog.newinfinideas.com/admin/register.php\',\'_self\')">注册</div>
 				<div class="item" onclick="window.open(\'http://www.newinfinideas.com\',\'_self\')">工作室官网</div>
@@ -31,16 +31,17 @@ function loadHeader($title="NEWorld Forum"){
 function loadFooter(){
 	echo '</div>
 	<div id="footer">
-	 CopyLEFT &copy; Infinideas 新创无际
+		CopyLEFT &copy; Infinideas 新创无际
 	</div>
 	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
+	<script type="text/javascript">navielementhover(0);</script>
 	</body>
 	</html>';
 }
 function ConnectDb(){
 	Global $con;
- $con = mysql_connect("10.4.26.93","umwL1o3zEYZqG","pmbY5i0FKqqEX");
-	mysql_select_db("d4e0d8a0deecf44fbb10e95159892f968",$con);
+	$con = mysql_connect("127.0.0.1","root","");
+	mysql_select_db("neworldforum",$con);
 }
 function DisconnectDb(){
 	Global $con;
