@@ -24,7 +24,7 @@ function loadFooter(){
 }
 function ConnectDb(){
 	Global $con;
-$con = mysql_connect("10.4.26.93","umwL1o3zEYZqG","pmbY5i0FKqqEX");
+	$con = mysql_connect("10.4.26.93","umwL1o3zEYZqG","pmbY5i0FKqqEX");
 	mysql_select_db("d4e0d8a0deecf44fbb10e95159892f968", $con);
 }
 function DisconnectDb(){
