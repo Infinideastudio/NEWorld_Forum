@@ -8,7 +8,7 @@ $ppid=$result['parent'];
 loadHeader($result['title'] . " - NEWorld Forum");
 ?>
 <div id="main_left">
-	<div class="box">
+	<div class="box clearfix">
 		<?php
 		echo '<form action="post.php" method="post">';
 		echo '<input type="hidden" name="type" value="1" readonly="true">';
@@ -17,8 +17,8 @@ loadHeader($result['title'] . " - NEWorld Forum");
 		echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 		echo "<h2>" . $result['title'] . "</h2>";
 		echo "<hr />";
-		echo '<p>' . $result['content'] . '<br /><br />';
-		echo "回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</p>";
+		echo '<p>' . $result['content'] . '</p>';
+		echo "<p class='nmp' style='font-size:10px;float:right;'>回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</p>";
 		if($un==getUsername()){
 			echo '<p><input type="submit" value="删除" class="btn" /></p>';
 		}
@@ -31,15 +31,15 @@ loadHeader($result['title'] . " - NEWorld Forum");
 				$content=$result['content'];
 				$pid=$result['PID'];
 				$un=$result['username'];
-				echo '<div class="topic">
+				echo '<div class="topic clearfix">
 				<form action="post.php" method="post">
 				<input type="hidden" name="type" value="1" readonly="true">
 				<input type="hidden" name="pid" value="' . $pid . '" readonly="true">
 				<input type="hidden" name="username" value="' . $un . '" readonly="true">
 				<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
-				echo "<p class='nmp'>[{$result['floor']}楼] {$result['username']}: {$result['content']}<br />
-					回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</p>";
-				echo '<input type="button" value="回复" class="btn" onclick="window.location=\'posts.php?p=' . $pid . '\';" class="btn" />';
+				echo "<p class='nmp'>[{$result['floor']}楼] {$result['username']}: {$result['content']}</p>";
+				echo "<p class='nmp' style='font-size:10px;float:right;'>回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</p>";
+				echo '<input type="button" value="回复" class="btn" onclick="window.location=\'posts.php?p=' . $pid . '\';" />';
 				if($un==getUsername()){
 					echo '&nbsp;&nbsp;<input type="submit" value="删除" class="btn" />';
 				}

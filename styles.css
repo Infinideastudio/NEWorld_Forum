@@ -1,8 +1,10 @@
-body{
+﻿body{
+	background-color:#b4ffff;
 	font-family:Arial,"Microsoft YaHei","宋体";
 	font-size:15px;
 	margin:0px;
 	width:100%;
+	background-image:url(images/bodybg.png);
 }
 h1,h2,h3{margin:5px;}
 h2,h3{color:#484848;}
@@ -24,6 +26,7 @@ hr{
 	padding:10px;
 	box-shadow:0 2px 10px #000000;
 	height:48px;
+	background-image:url(images/headerbg.png);
 }
 #navi{
 	position:absolute;
@@ -32,7 +35,7 @@ hr{
 	padding:33px 0px 0px 0px;
 }
 #main{
-	background-color:#b4ffff;
+	background-color:#ffffff;
 	margin:0 12%;
 	padding:10px;
 	box-shadow:0 0 8px #000000;
@@ -45,12 +48,10 @@ hr{
 #main_left{
 	float:left;
 	width:80%;
-	/*background-color:#00ff00;*/
 }
 #main_right{
 	float:right;
 	width:20%;
-	/*background-color:#0000ff;*/
 }
 #main_left,#main_right{
 	margin:0px;
@@ -65,6 +66,7 @@ hr{
 	text-align:center;
 	box-shadow:0 -2px 10px #000000;
 	clear:both;
+	background-image:url(images/footerbg.png);
 }
 .nmp{margin:0px;}
 .box{
@@ -72,6 +74,11 @@ hr{
 	padding:10px;
 	margin:5px;
 	box-shadow:0 0 3px #000000;
+}
+.clearfix:after{
+	content:" ";
+	display:table;
+	clear:both;
 }
 .topic:nth-child(odd){
 	margin:0px;
@@ -82,6 +89,16 @@ hr{
 	background-color:#ddffff;
 }
 .topic:hover{background-color:#eeffff;}
+/*
+.topic_left{
+	float:left;
+	width:48px;
+}
+.topic_right{
+	position:relative;
+	margin-left:48px;
+}
+*/
 .btn{
 	font-family:Arial,"Microsoft YaHei","宋体";
 	font-size:12px;

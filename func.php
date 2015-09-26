@@ -10,6 +10,7 @@ function loadHeader($title="NEWorld Forum"){
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
 		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
 		<title>'.$title.'</title>
 	</head>
 	<body>

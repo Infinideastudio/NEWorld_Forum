@@ -27,8 +27,11 @@
 			}
 			$results = mysql_query("SELECT * FROM Posts WHERE parent = 0 ORDER BY lastreplytime DESC");
 			while($result = mysql_fetch_array($results)){
-				echo "<div class='topic'>{$result['PID']}. {$result["username"]} <a href='posts.php?p={$result['PID']}' > {$result['title']} </a> <br />
-				<span style='padding: 0 2em;'> </span> {$result['content']} <br /> 回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</div>";
+				echo "<div class='topic clearfix'>";
+				echo "<p class='nmp' style='font-size:18px;'><a href='posts.php?p={$result['PID']}' > {$result['title']}</a></p>";
+				echo "<p class='nmp' style='font-size:14px;'>{$result['content']}</p>";
+				echo "<p class='nmp' style='font-size:10px;float:right;'>作者：{$result["username"]} | 回复数：{$result['replycount']} | 发布时间：{$result['createtime']}</p>";
+				echo "</div>";
 			}
 			DisconnectDb();
 		?>
