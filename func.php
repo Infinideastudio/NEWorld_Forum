@@ -10,6 +10,7 @@ function loadHeader($title="NEWorld Forum"){
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
 		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<script type="text/javascript" src="func.js"></script>
 		<link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
 		<title>'.$title.'</title>
 	</head>
@@ -35,19 +36,10 @@ function loadFooter(){
 		CopyLEFT &copy; Infinideas 新创无际
 	</div>
 	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
-	<script type="text/javascript">navielementhover(0);</script>
 	</body>
 	</html>';
 }
-function ConnectDb(){
-	Global $con;
-	$con = mysql_connect("10.4.26.93","umwL1o3zEYZqG","pmbY5i0FKqqEX");
-	mysql_select_db("d4e0d8a0deecf44fbb10e95159892f968", $con);
-}
-function DisconnectDb(){
-	Global $con;
-	mysql_close($con);
-}
+
 function filter($str, $canUseSometime){
 	$ret=$str;
 	if($canUseSometime){
@@ -84,6 +76,23 @@ function getUsername(){
 	}else{
 		return $_COOKIE["username"];
 	}
+}
+
+function findroot($pid){
+	$currow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = " . $pid));
+	$ppid=$currow['parent'];
+	if($ppid==0)return $pid;
+	else return findroot($ppid);
+}
+
+function ConnectDb(){
+	Global $con;
+	$con = mysql_connect("10.4.26.93","umwL1o3zEYZqG","pmbY5i0FKqqEX");
+	mysql_select_db("d4e0d8a0deecf44fbb10e95159892f968", $con);
+}
+function DisconnectDb(){
+	Global $con;
+	mysql_close($con);
 }
 
 ?>

@@ -1,4 +1,17 @@
-<?php include_once("func.php");loadHeader(); ?>
+<?php
+include_once("func.php");loadHeader();
+function getfontcolor($replycount){
+	/*
+	if($replycount<10)return "#000000";
+	if($replycount<30)return "#646464";
+	if($replycount<100)return "#0099ff";
+	if($replycount<300)return "#dddd00";
+	if($replycount<1000)return "#dd0000";
+	return "#ff0000";
+	*/
+	return "#000000";
+}
+?>
 <div id="main_left">
 	<div class="box">
 		<p class="nmp">NEWorld Forum - NEWorld玩家们讨论与交流的自由空间！</p>
@@ -30,7 +43,9 @@
 				echo "<div class='topic clearfix'>";
 				echo "<p class='nmp' style='font-size:18px;'><a href='posts.php?p={$result['PID']}' > {$result['title']}</a></p>";
 				echo "<p class='nmp' style='font-size:14px;'>{$result['content']}</p>";
-				echo "<p class='nmp' style='font-size:10px;float:right;'>作者：{$result["username"]} | 回复数：{$result['replycount']} | 发布时间：{$result['createtime']}</p>";
+				echo "<span style='font-size:12px;float:right;'>作者：{$result["username"]} | ";
+				echo "<span style='color:" . getfontcolor($result['replycount']) . ";'>回复数：{$result['replycount']}</span>";
+				echo " | 发布时间：{$result['createtime']}</span>";
 				echo "</div>";
 			}
 			DisconnectDb();

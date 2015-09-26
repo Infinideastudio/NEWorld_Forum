@@ -12,13 +12,6 @@
 		}
 	}
 	
-	function findroot($pid){
-		$currow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = " . $pid));
-		$ppid=$currow['parent'];
-		if($ppid==0)return $pid;
-		else return findroot($ppid);
-	}
-	
 	switch ($_POST['type']) {
   
 		case '0': //新建主题
