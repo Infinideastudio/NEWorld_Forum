@@ -10,8 +10,8 @@ function loadHeader($title="NEWorld Forum"){
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
 		<link rel="stylesheet" type="text/css" href="';
-		if(isset($_COOKIE["flat"])&&$_COOKIE["flat"]==1)echo 'styles';
-		else echo 'flat';
+		if(isset($_COOKIE["flat"])&&$_COOKIE["flat"]=="1")echo 'flat';
+		else echo 'style';
 		echo '.css" />
 		<script type="text/javascript" src="func.js"></script>
 		<link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
