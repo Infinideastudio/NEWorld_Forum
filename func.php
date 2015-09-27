@@ -65,23 +65,12 @@ function loaduserinfo(){
 	</div>';
 }
 
-function filter($str, $canUseSometime){
+function filter($str,$canUseSometime){
 	$ret=$str;
-	if($canUseSometime){
-		if(substr($ret,0,12)=="USE HTML TAG"){
-			$ret=substr($ret,12);
-			$ret=str_replace("script","",$ret);
-			$ret=str_replace("iframe","",$ret);
-			$ret=str_replace("style","",$ret);
-			$ret=str_replace("<!--","",$ret);
-		}
-		else{
-			$ret=htmlspecialchars($ret);
-		}
-	}
-	else{
-		$ret=htmlspecialchars($ret);
-	}
+	$ret=htmlspecialchars($ret);
+	$ret=str_replace("\\","\\\\",$ret);
+	$ret=str_replace("'","\\'",$ret);
+	echo $ret;
 	return $ret;
 }
 
