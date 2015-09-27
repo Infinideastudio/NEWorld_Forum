@@ -14,7 +14,7 @@ function loadHeader($title="NEWorld Forum"){
 			echo 'flat';
 		}
 		else{
-			echo 'style';
+			echo 'styles';
 		}
 		echo '.css" />
 		<script type="text/javascript" src="func.js"></script>
