@@ -71,7 +71,7 @@ hr{
 }
 .nmp{margin:0px;}
 .box{
-	background-color:#ddffff;
+	background-color:#eeeeee;
 	padding:10px;
 	margin:5px;
 	box-shadow:0 0 3px #000000;
@@ -83,13 +83,13 @@ hr{
 }
 .topic:nth-child(odd){
 	margin:0px;
-	background-color:#cceeee;
+	background-color:#dddddd;
 }
 .topic:nth-child(even){
 	margin:0px;
-	background-color:#ddffff;
+	background-color:#eeeeee;
 }
-.topic:hover{background-color:#eeffff;}
+.topic:hover{background-color:#ffffff;}
 /*
 .topic_left{
 	float:left;

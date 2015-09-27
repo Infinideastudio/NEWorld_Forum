@@ -2,10 +2,10 @@
 if(isset($_COOKIE["flat"]))
 {
 	if($_COOKIE["flat"]=="1"){
-		$_COOKIE["flat"]="0";
+		setcookie("flat","0");
 	}
 	else{
-		$_COOKIE["flat"]="1";
+		setcookie("flat","1");
 	}
 }
 else{
