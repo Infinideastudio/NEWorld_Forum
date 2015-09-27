@@ -75,7 +75,7 @@ margin: 2px -10px;
 }
 .topic:hover{background-color:#f8f8f8;}
 .topic{
-	margin: 15px -10px;
+	margin: 0px -10px;
 	padding: 15px 35px;
 	border-bottom: 1px dashed #f0f0f0;
 }
