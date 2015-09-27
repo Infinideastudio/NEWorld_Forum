@@ -61,7 +61,7 @@ function getfontcolor($replycount){
 	</div>
 </div>
 <div id="main_right">
-	<a href="flat/index.php">切换到简约版</a>
+	<a href="flatswitch.php">切换到简约版</a>
 	<br />
 	<div class="box">
 		<?php

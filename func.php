@@ -9,7 +9,10 @@ function loadHeader($title="NEWorld Forum"){
 		<meta name="author" content="Null, qiaozhanrong" />
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
-		<link rel="stylesheet" type="text/css" href="styles.css" />
+		<link rel="stylesheet" type="text/css" href="';
+		if(isset($_COOKIE["flat"])&&$_COOKIE["flat"]==1)echo 'styles';
+		else echo 'flat';
+		echo '.css" />
 		<script type="text/javascript" src="func.js"></script>
 		<link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
 		<title>'.$title.'</title>
@@ -33,7 +36,7 @@ function loadHeader($title="NEWorld Forum"){
 function loadFooter(){
 	echo '</div>
 	<div id="footer">
-		CopyLEFT &copy; Infinideas 新创无际
+		Copyleft &copy; Infinideas 新创无际
 	</div>
 	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
 	</body>
@@ -43,24 +46,15 @@ function loadFooter(){
 function filter($str, $canUseSometime){
 	$ret=$str;
 	if($canUseSometime){
-		$usehtmltag=false;
 		if(substr($ret,0,12)=="USE HTML TAG"){
 			$ret=substr($ret,12);
-			$usehtmltag=true;
+			$ret=str_replace("script","",$ret);
+			$ret=str_replace("iframe","",$ret);
+			$ret=str_replace("style","",$ret);
+			$ret=str_replace("<!--","",$ret);
 		}
 		else{
 			$ret=htmlspecialchars($ret);
-		}
-		if(substr($ret,0,11)=="USE ALL TAG"){
-			$ret=substr($ret,11);
-		}
-		else{
-			if($usehtmltag){
-				$ret=str_replace("script","",$ret);
-				$ret=str_replace("iframe","",$ret);
-				$ret=str_replace("style","",$ret);
-				$ret=str_replace("<!--","",$ret);
-			}
 		}
 	}
 	else{
