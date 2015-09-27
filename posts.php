@@ -33,12 +33,13 @@ loadHeader($title . " - NEWorld Forum");
 		}
 		echo "<hr style='clear:both;'/>";
 		echo '<p>' . $result['content'] . '</p>';
-		echo "<p class='nmp' style='font-size:12px;float:right;'>回复数： {$result['replycount']}  | 发布时间： {$result['createtime']}</p>";
+		echo "<p class='nmp' style='font-size:12px;float:right;'>";
+		echo "回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']} | 最后编辑：{$result['lastedittime']}</p>";
 		if($un==getUsername()){
 			echo '<p><input type="submit" value="删除" class="btn" /></p>';
 		}
 		echo '</form>';
-
+		
 		function show_replies($ppid,$deep,$firstlevel=false){
 			$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "' ORDER BY floor ASC");
 			$count=0;
@@ -53,7 +54,8 @@ loadHeader($title . " - NEWorld Forum");
 				<input type="hidden" name="username" value="' . $un . '" readonly="true">
 				<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 				echo "<p class='nmp'>[{$result['floor']}楼] {$result['username']}: {$result['content']}</p>";
-				echo "<p class='nmp' style='font-size:12px;float:right;'>回复数： {$result['replycount']}  | PID={$result['PID']} | 发布时间： {$result['createtime']}</p>";
+				echo "<p class='nmp' style='font-size:12px;float:right;'>";
+				echo "回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
 				echo '<input type="button" value="回复" class="btn" onclick="showreplybox(' . $pid . ')" />';
 				if($un==getUsername()){
 					echo '&nbsp;&nbsp;<input type="submit" value="删除" class="btn" />';
@@ -66,6 +68,7 @@ loadHeader($title . " - NEWorld Forum");
 					echo '</div>';
 				}
 			}
+			
 		}
 		?>
 	</div>
@@ -79,31 +82,19 @@ loadHeader($title . " - NEWorld Forum");
 	?>
 	
 	<div class="box" style="margin-top:10px;">
+		<p class="nmp">发表回复</p>
+		<hr />
 		<form action="post.php" method="post">
 			<input type="hidden" name="type" value="2" readonly="true">
 			<input type="hidden" name="pid" value="<?php echo $_GET['p']; ?>" readonly="true">
-			<textarea name="content" id="content" placeholder="内容" required="true" style="width:99%;height:300px;" class="txtbox"></textarea>
+			<textarea name="content" id="content" placeholder="内容" required="true" style="margin-top:10px;width:99%;height:300px;" class="txtbox"></textarea>
 			<p><button type="submit" class="btn">回复</button></p>
 		</form>
 	</div>
 </div>
 
 <div id="main_right">
-	<a href="flat/index.php">切换到简约版</a>
-	<br />
-	<div class="box">
-		<?php
-			$un=getUsername();
-			if($un==""){
-				echo '<input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
-				echo ' | <input type="button" value="注册" onclick="window.location=\'http://neblog.newinfinideas.com/admin/register.php\';" class="btn" />';
-			}
-			else{
-				echo "$un";
-				echo ' | <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
-			}
-		?>
-	</div>
+	<?php loaduserinfo() ?>
 	<p class="nmp">本帖的最新回复：</p>
 	<div class="box">
 		<?php

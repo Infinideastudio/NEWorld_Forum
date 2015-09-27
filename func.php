@@ -40,11 +40,29 @@ function loadHeader($title="NEWorld Forum"){
 function loadFooter(){
 	echo '</div>
 	<div id="footer">
-		Copyleft &copy; Infinideas 新创无际
+		copyleft &copy; Infinideas 新创无际
 	</div>
 	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
 	</body>
 	</html>';
+}
+
+function loaduserinfo(){
+	echo '<div class="box">';
+	$un=getUsername();
+	if($un==""){
+		echo '<input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
+		echo ' | <input type="button" value="注册" onclick="window.location=\'http://neblog.newinfinideas.com/admin/register.php\';" class="btn" />';
+	}
+	else{
+		echo "$un";
+		echo ' | <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
+	}
+	echo '<br />
+		<a href="usercenter.php">个人中心[测试版]</a>
+		<br />
+		<a href="flatswitch.php">简约版/普通版切换</a>
+	</div>';
 }
 
 function filter($str, $canUseSometime){
@@ -81,6 +99,24 @@ function findroot($pid){
 	$ppid=$currow['parent'];
 	if($ppid==0)return $pid;
 	else return findroot($ppid);
+}
+
+function GBsubstr($string,$start,$length){
+	if(strlen($string)>$length){
+		$str=null;
+		$len=$start+$length;
+		for($i=$start;$i<$len;$i++){
+			if(ord(substr($string,$i,1))>127){
+				$str.=substr($string,$i,3);
+				$i+=2;
+			}
+			else{
+				$str.=substr($string,$i,1);
+			}
+		}
+		return $str;
+	}
+	else return $string;
 }
 
 function ConnectDb(){
