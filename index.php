@@ -23,7 +23,7 @@ function getfontcolor($replycount){
 			$pageposts=50;
 			$page=1;
 			$maxpage=ceil($mainrow['replycount']/$pageposts);
-			if(isset($_GET['pn']))$page=$_GET['pn'];
+			if(isset($_GET['pn']))$page=filter($_GET['pn'],true);
 			if(mysql_num_rows(mysql_query("SHOW TABLES LIKE 'Posts'"))!=1){
 				$sqlquery = "CREATE TABLE Posts(
 				PID INT AUTO_INCREMENT,

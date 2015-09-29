@@ -1,8 +1,8 @@
 <?php
 include_once("func.php");
 ConnectDb();
-$result=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = '" . $_GET['p'] . "'"));
-$pid=$result['PID'];
+$pid=filter($_GET['p']);
+$result=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = '" . $pid . "'"));
 $un=$result['username'];
 $ppid=$result['parent'];
 $title=$result['title'];
@@ -21,8 +21,6 @@ loadHeader($title . " - NEWorld Forum");
 		echo '<form action="post.php" method="post">';
 		echo '<input type="hidden" name="type" value="1" readonly="true">';
 		echo '<input type="hidden" name="pid" value="' . $pid . '" readonly="true">';
-		echo '<input type="hidden" name="username" value="' . $un . '" readonly="true">';
-		echo '<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
 		echo "<div style='float:left;'><h2>" . $title . "</h2></div>";
 		if(!$isroot){
 			echo "<div style='float:right;'>";
@@ -40,7 +38,7 @@ loadHeader($title . " - NEWorld Forum");
 		}
 		echo '</form>';
 		
-		function show_replies($ppid,$deep,$firstlevel=false){
+		function show_replies($ppid,$deep){
 			$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "' ORDER BY floor ASC");
 			$count=0;
 			while($result = mysql_fetch_array($results)){
@@ -50,9 +48,7 @@ loadHeader($title . " - NEWorld Forum");
 				echo '<div class="topic clearfix">
 				<form action="post.php" method="post">
 				<input type="hidden" name="type" value="1" readonly="true">
-				<input type="hidden" name="pid" value="' . $pid . '" readonly="true">
-				<input type="hidden" name="username" value="' . $un . '" readonly="true">
-				<input type="hidden" name="parent" value="' . $ppid . '" readonly="true">';
+				<input type="hidden" name="pid" value="' . $pid . '" readonly="true">';
 				echo "<p class='nmp'>[{$result['floor']}楼] {$result['username']}: {$result['content']}</p>";
 				echo "<p class='nmp' style='font-size:12px;float:right;'>";
 				echo "回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
@@ -75,7 +71,7 @@ loadHeader($title . " - NEWorld Forum");
 	<?php
 	if($result['replycount']){
 		echo '<div class="box" style="margin-top:10px;padding:8px;">';
-		show_replies($_GET['p'],0,true);
+		show_replies($pid,0);
 		echo '</div>';
 	}
 	DisconnectDb();
@@ -99,7 +95,7 @@ loadHeader($title . " - NEWorld Forum");
 	<div class="box">
 		<?php
 		ConnectDb();
-		$results = mysql_query("SELECT * FROM Posts WHERE parent=".$_GET['p']." ORDER BY createtime DESC LIMIT 0,5");
+		$results = mysql_query("SELECT * FROM Posts WHERE parent=".$pid." ORDER BY createtime DESC LIMIT 0,5");
 		while($result = mysql_fetch_array($results)){
 			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['content']}</a><br />
 			回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</div>";

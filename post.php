@@ -36,8 +36,8 @@
 				exit();
 			}
 			if ($_POST['title']!="" && $_POST['content']!=""){
-				$_POST['title']=filter($_POST['title'], true);
-				$_POST['content']=filter($_POST['content'], true);
+				$_POST['title']=filter($_POST['title']);
+				$_POST['content']=filter($_POST['content']);
 				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID=1"); //主贴只负责记录独立帖子数量，独立帖子数加一
 				mysql_query("INSERT INTO Posts (username, title, content, parent)
 							VALUES ('" . getUsername() . "', '" . $_POST['title'] . "', '" . $_POST['content'] . "', 0) ");
@@ -46,14 +46,16 @@
 			break;
 			
 		case '1': //删除帖子
-			if ($_POST['username']==getUsername()) {
-				mysql_query("DELETE FROM Posts WHERE PID = '" . $_POST['pid'] . "'");
-				if($_POST['parent']==0){
+			$pid=filter($_POST['pid']);
+			$row=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=".$pid));
+			if ($row['username']==getUsername()) {
+				mysql_query("DELETE FROM Posts WHERE PID = '" . $pid . "'");
+				if($row['parent']==0){
 					mysql_query("UPDATE Posts SET replycount=replycount-1 WHERE PID=1"); //主贴只负责记录独立帖子数量，独立帖子数减一
-					delete_replies($_POST['pid']);
+					delete_replies($pid);
 				}
 				else{
-					delete_reply_from($_POST['parent'],delete_replies($_POST['pid'])+1); //给本帖所有的祖父节点（不包括main帖）回复数全部减去此次被删除的帖子总数
+					delete_reply_from($row['parent'],delete_replies($pid)+1); //给本帖所有的祖父节点（不包括main帖）回复数全部减去此次被删除的帖子总数
 				}
 			}
 			break;
@@ -66,15 +68,16 @@
 				echo '</div>';
 				exit();
 			}
+			$pid=filter($_POST['pid']);
+			$_POST['content']=filter($_POST['content']);
 			if ($_POST['content']!=""){
-				$_POST['content']=filter($_POST['content'], true);
-				mysql_query("UPDATE Posts SET maxfloor=maxfloor+1 WHERE PID=" . $_POST['pid']); //parent楼层数加一
-				$parentrow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=" . $_POST['pid']));
+				mysql_query("UPDATE Posts SET maxfloor=maxfloor+1 WHERE PID=" . $pid); //parent楼层数加一
+				$parentrow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=" . $pid));
 				mysql_query("INSERT INTO Posts (username, title, content, parent, floor)
-							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '" . $_POST['pid'] . "', " . $parentrow['maxfloor'] . ") ");
+							VALUES ('" . getUsername() . "', '', '" . $_POST['content'] . "', '" . $pid . "', " . $parentrow['maxfloor'] . ") ");
 				mysql_query("UPDATE Posts SET lastedittime=createtime,lastreplytime=createtime WHERE PID = LAST_INSERT_ID()");
 				$currow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = LAST_INSERT_ID()"));
-				add_reply_to($_POST['pid'],$currow['createtime']); //给本帖所有的祖父节点（不包括main帖）回复数全部加一，并更新最后回复时间
+				add_reply_to($pid,$currow['createtime']); //给本帖所有的祖父节点（不包括main帖）回复数全部加一，并更新最后回复时间
 			}
 			break;
 	}

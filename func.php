@@ -1,5 +1,10 @@
 <?php
 $con=0;
+$mysqlHost=getenv("MOPAAS_MYSQL29074_HOST");
+$mysqlUsername=getenv("MOPAAS_MYSQL29074_USERNAME");
+$mysqlPassword=getenv("MOPAAS_MYSQL29074_PASSWORD");
+$mysqlDBName=getenv("MOPAAS_MYSQL29074_NAME");
+
 function loadHeader($title="NEWorld Forum"){
 	echo '<!DOCTYPE html>
 	<html lang="cn">
@@ -9,14 +14,7 @@ function loadHeader($title="NEWorld Forum"){
 		<meta name="author" content="Null, qiaozhanrong" />
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
-		<link rel="stylesheet" type="text/css" href="';
-		if(isset($_COOKIE["flat"])&&$_COOKIE["flat"]=="1") {
-			echo 'flat';
-		}
-		else{
-			echo 'styles';
-		}
-		echo '.css" />
+		<link rel="stylesheet" type="text/css" href="'.(isset($_COOKIE["flat"])&&$_COOKIE["flat"]=="1"?"flat":"styles").'.css" />
 		<script type="text/javascript" src="func.js"></script>
 		<link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
 		<title>'.$title.'</title>
@@ -65,21 +63,19 @@ function loaduserinfo(){
 	</div>';
 }
 
-function filter($str,$canUseSometime){
+function filter($str){
 	$ret=$str;
 	$ret=htmlspecialchars($ret);
 	$ret=str_replace("\\","\\\\",$ret);
 	$ret=str_replace("'","\\'",$ret);
-	echo $ret;
 	return $ret;
 }
 
-//如果登录了，返回用户名，如果没有登录，返回""
 function getUsername(){
 	if(!isset($_COOKIE["islogin"])||$_COOKIE["islogin"]==0){
 		return "";
 	}else{
-		return $_COOKIE["username"];
+		return filter($_COOKIE["username"]);
 	}
 }
 
@@ -109,12 +105,13 @@ function GBsubstr($string,$start,$length){
 }
 
 function ConnectDb(){
-	Global $con;
-	$con = mysql_connect("10.4.26.93","umwL1o3zEYZqG","pmbY5i0FKqqEX");
-	mysql_select_db("d4e0d8a0deecf44fbb10e95159892f968", $con);
+	global $con,$mysqlHost,$mysqlDBName;
+	global $mysqlUsername,$mysqlPassword;
+	$con=mysql_connect($mysqlHost,$mysqlUsername,$mysqlPassword);
+	mysql_select_db($mysqlDBName,$con);
 }
 function DisconnectDb(){
-	Global $con;
+	global $con;
 	mysql_close($con);
 }
 
