@@ -1,9 +1,9 @@
 <?php
 $con=0;
-$mysqlHost="127.0.0.1";
-$mysqlUsername="root";
-$mysqlPassword="";
-$mysqlDBName="forum";
+$mysqlHost=getenv("MOPAAS_MYSQL29074_HOST");
+$mysqlUsername=getenv("MOPAAS_MYSQL29074_USERNAME");
+$mysqlPassword=getenv("MOPAAS_MYSQL29074_PASSWORD");
+$mysqlDBName=getenv("MOPAAS_MYSQL29074_NAME");
 
 session_start();
 if(!isset($_SESSION["key"])) $_SESSION["key"]=time()%1024+rand()*10;
