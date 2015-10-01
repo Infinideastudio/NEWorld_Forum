@@ -84,7 +84,7 @@ loadHeader($title . " - NEWorld Forum");
 			<input type="hidden" name="type" value="2" readonly="true">
 			<input type="hidden" name="pid" value="<?php echo $_GET['p']; ?>" readonly="true">
 			<textarea name="content" id="content" placeholder="内容" required="true" style="margin-top:10px;width:99%;height:300px;" class="txtbox"></textarea>
-			<p><button type="submit" class="btn">回复</button></p>
+			<p><button type="submit" class="btn" style='color:#ffffff;background-color:#0099ff;'>回复</button></p>
 		</form>
 	</div>
 </div>

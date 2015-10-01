@@ -84,7 +84,7 @@ function getfontcolor($replycount){
 			<input type="hidden" name="type" value="0" readonly="true">
 			<p><input type="text" name="title" id="title" placeholder="标题" autocomplete="off" style="width:99%;height:18px;" class="txtbox"></p>
 			<textarea name="content" id="content" placeholder="内容" required="true" style="width:99%;height:280px;" class="txtbox"></textarea>
-			<p><input type="submit" value="发布" class="btn" /></p>
+			<p><input type="submit" value="发布" style='color:#ffffff;background-color:#0099ff;' class="btn" /></p>
 		</form>
 	</div>
 </div>

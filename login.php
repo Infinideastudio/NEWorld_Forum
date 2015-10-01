@@ -26,8 +26,8 @@
 		);
 		 
 		$response = Post('http://neblog.newinfinideas.com/admin/islogin.php', $data);
-		setcookie('islogin',(int)$response);
-		setcookie('username',$_POST['username']);
+		setcookie('islogin',(int)$response,time()+2592000);
+		setcookie('token',encrypt($_POST['username'], $_SESSION["key"]),time()+2592000);
 		if((int)$response==1){
 			echo "登录成功！一秒后将自动跳转！";
 			echo '<meta http-equiv="Refresh" content="1; url=index.php">';
@@ -38,10 +38,10 @@
 	}
 	?>
 	<div style="text-align:center;">
-		<div class="box" style="width:200px;margin:10px auto;">
+		<div class="box" style="width:50%;height:50%;margin:12% auto;padding:6% 3%;">
 			<form action="login.php" method="post">
-				<p><input type="text" name="username" id="username" placeholder="用户名" class="txtbox" style="width:100px;"></p>
-				<p><input type="password" name="pwd" id="pwd" placeholder="密码" class="txtbox" style="width:100px;"></p>
+				<p><input type="text" name="username" id="username" placeholder="用户名" class="txtbox" style="width:180px;"></p>
+				<p><input type="password" name="pwd" id="pwd" placeholder="密码" class="txtbox" style="width:180px;"></p>
 				<p><button type="submit" class="btn">登录</button></p>
 			</form>
 			<a href="http://neblog.newinfinideas.com/admin/register.php">没有账号？免费注册</a>

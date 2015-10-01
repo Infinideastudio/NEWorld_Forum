@@ -1,9 +1,12 @@
 <?php
 $con=0;
-$mysqlHost=getenv("MOPAAS_MYSQL29074_HOST");
-$mysqlUsername=getenv("MOPAAS_MYSQL29074_USERNAME");
-$mysqlPassword=getenv("MOPAAS_MYSQL29074_PASSWORD");
-$mysqlDBName=getenv("MOPAAS_MYSQL29074_NAME");
+$mysqlHost="127.0.0.1";
+$mysqlUsername="root";
+$mysqlPassword="";
+$mysqlDBName="forum";
+
+session_start();
+if(!isset($_SESSION["key"])) $_SESSION["key"]=time()%1024+rand()*10;
 
 function loadHeader($title="NEWorld Forum"){
 	echo '<!DOCTYPE html>
@@ -59,10 +62,29 @@ function loaduserinfo(){
 	echo '<br />
 		<a href="usercenter.php">个人中心[测试版]</a>
 		<br />
-		<a href="flatswitch.php">简约版/普通版切换</a>
+		<a href="flatswitch.php" style="font-weight:bold;">简约版/普通版切换</a>
 	</div>';
 }
+function encrypt($data, $key) { 
+	$prep_code = serialize($data); 
+	$block = mcrypt_get_block_size('des', 'ecb'); 
+	if (($pad = $block - (strlen($prep_code) % $block)) < $block) { 
+		$prep_code .= str_repeat(chr($pad), $pad); 
+	} 
+	$encrypt = mcrypt_encrypt(MCRYPT_DES, $key, $prep_code, MCRYPT_MODE_ECB); 
+	return base64_encode($encrypt); 
+} 
 
+function decrypt($str, $key) { 
+	$str = base64_decode($str); 
+	$str = mcrypt_decrypt(MCRYPT_DES, $key, $str, MCRYPT_MODE_ECB); 
+	$block = mcrypt_get_block_size('des', 'ecb'); 
+	$pad = ord($str[($len = strlen($str)) - 1]); 
+	if ($pad && $pad < $block && preg_match('/' . chr($pad) . '{' . $pad . '}$/', $str)) { 
+		$str = substr($str, 0, strlen($str) - $pad); 
+	} 
+	return @unserialize($str); 
+} 
 function filter($str){
 	$ret=$str;
 	$ret=htmlspecialchars($ret);
@@ -75,7 +97,7 @@ function getUsername(){
 	if(!isset($_COOKIE["islogin"])||$_COOKIE["islogin"]==0){
 		return "";
 	}else{
-		return filter($_COOKIE["username"]);
+		return filter(decrypt($_COOKIE['token'],$_SESSION["key"]));
 	}
 }
 
