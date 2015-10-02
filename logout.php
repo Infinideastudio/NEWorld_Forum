@@ -1,6 +1,6 @@
 <?php
-setcookie("islogin");
-setcookie("username");
+setcookie("islogin",0);
+setcookie("token");
 if (isset($_SERVER['HTTP_REFERER'])) {
 	echo '<meta http-equiv="Refresh" content="0; url='. $_SERVER['HTTP_REFERER'] . '">';
 }else{
