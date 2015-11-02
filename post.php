@@ -17,20 +17,20 @@
 	function add_reply_to($ppid,$curtime){
 		mysql_query("UPDATE Posts SET replycount=replycount+1,lastreplytime='".$curtime."' WHERE PID=".$ppid);
 		$result=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=".$ppid));
-		if($result['parent']!=0)add_reply_to($result['parent'],$curtime);
+		if($result['parent']!=1)add_reply_to($result['parent'],$curtime);
 	}
 	
 	function delete_reply_from($ppid,$count){
 		mysql_query("UPDATE Posts SET replycount=replycount-".$count." WHERE PID=".$ppid);
 		$result=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=".$ppid));
-		if($result['parent']!=0)delete_reply_from($result['parent'],$count);
+		if($result['parent']!=1)delete_reply_from($result['parent'],$count);
 	}
 	
 	switch ($_POST['type']) {
 		case '0': //新建主题
 			if(getUsername()==""){
 				echo '<div style="text-align:center">';
-				echo '<p>请先注册后再发帖</p>';
+				echo '<p>请先登录</p>';
 				echo '<a href="index.php">返回主页</a> | <a href="login.php">登录</a>';
 				echo '</div>';
 				exit();
@@ -38,10 +38,14 @@
 			if ($_POST['title']!="" && $_POST['content']!=""){
 				$_POST['title']=filter($_POST['title']);
 				$_POST['content']=filter($_POST['content']);
-				mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID=1"); //主贴只负责记录独立帖子数量，独立帖子数加一
-				mysql_query("INSERT INTO Posts (username, title, content, parent)
-							VALUES ('" . getUsername() . "', '" . $_POST['title'] . "', '" . $_POST['content'] . "', 0) ");
-				mysql_query("UPDATE Posts SET lastedittime=createtime,lastreplytime=createtime WHERE PID = LAST_INSERT_ID()");
+				if(!mysql_query("INSERT INTO Posts (username, title, content, parent)
+							VALUES ('" . getUsername() . "', '" . $_POST['title'] . "', '" . $_POST['content'] . "', 1) ") ||
+					!mysql_query("UPDATE Posts SET lastedittime=createtime,lastreplytime=createtime WHERE PID = LAST_INSERT_ID()") ||
+					!mysql_query("UPDATE Posts SET replycount=replycount+1 WHERE PID=1") //主贴只负责记录独立帖子数量，独立帖子数加一
+				){
+					echo '<meta http-equiv="Refresh" content="0; url=error.php?errorcode=1">';
+					return;
+				}
 			}
 			break;
 			
@@ -58,12 +62,16 @@
 					delete_reply_from($row['parent'],delete_replies($pid)+1); //给本帖所有的祖父节点（不包括main帖）回复数全部减去此次被删除的帖子总数
 				}
 			}
+			if($row['parent']==1){
+				echo '<meta http-equiv="Refresh" content="0; url=index.php">';
+				return;
+			}
 			break;
 			
 		case '2': //添加回帖
 			if(getUsername()==""){
 				echo '<div style="text-align:center">';
-				echo '<p>请先注册后再发帖</p>';
+				echo '<p>请先登录</p>';
 				echo '<a href="index.php">返回主页</a> | <a href="login.php">登录</a>';
 				echo '</div>';
 				exit();

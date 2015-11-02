@@ -1,50 +1,68 @@
 <?php
-include_once("func.php");loadHeader();
-function getfontcolor($replycount){
-	/*
-	if($replycount<10)return "#000000";
-	if($replycount<30)return "#646464";
-	if($replycount<100)return "#0099ff";
-	if($replycount<300)return "#dddd00";
-	if($replycount<1000)return "#dd0000";
-	return "#ff0000";
-	*/
-	return "#000000";
-}
+	include_once("func.php");loadHeader();
+	ConnectDb();
+	if(mysql_num_rows(mysql_query("SHOW TABLES LIKE 'Posts'"))!=1){
+		$sqlquery = "CREATE TABLE Posts(
+		PID INT AUTO_INCREMENT,
+		PRIMARY KEY(PID),
+		username TINYTEXT,
+		title TINYTEXT,
+		content TEXT,
+		createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		lastedittime TIMESTAMP,
+		lastreplytime TIMESTAMP,
+		parent INT,
+		replycount INT DEFAULT 0,
+		floor INT,
+		maxfloor INT DEFAULT 0
+		)";
+		mysql_query($sqlquery);
+		mysql_query("CREATE CLUSTERED INDEX parent_cindex ON Posts(parent) WITH ALLOW_DUP_ROW");
+		mysql_query("INSERT INTO Posts (username, title, content, parent) VALUES ('system', 'main', '', -1) ");
+		echo "Initialized table 'Posts'.";
+	}
+	if(mysql_num_rows(mysql_query("SHOW TABLES LIKE 'broadcast'"))!=1){
+		mysql_query("CREATE TABLE broadcast(
+					number INT AUTO_INCREMENT, PRIMARY KEY(number),
+					content TEXT)");
+		echo "Initialized table 'broadcast'.";
+	}
+	DisconnectDb();
+
+	function getfontcolor($replycount){
+		/*
+		if($replycount<10)return "#000000";
+		if($replycount<30)return "#646464";
+		if($replycount<100)return "#0099ff";
+		if($replycount<300)return "#dddd00";
+		if($replycount<1000)return "#dd0000";
+		return "#ff0000";
+		*/
+		return "#000000";
+	}
 ?>
 <div id="main_left">
 	<div class="box">
-		<p class="nmp" style="float:left;margin-bottom:5px;">NEWorld Forum - NEWorld玩家们讨论与交流的自由空间！</p>
 		<?php
 			ConnectDb();
 			$mainrow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=1"));
+			echo '<p class="nmp" style="float:left;margin-bottom:5px;">NEWorld Forum - NEWorld玩家们讨论与交流的自由空间！</p>';
 			echo "<p class='nmp' style='font-size:12px;float:right;'>这里已有{$mainrow['replycount']}个主题帖！</p>";
 			echo "<hr style='clear:both;'/>";
+			//公告栏
+			echo '<div class="txtbox" style="background-color:#fafafa;">
+					<marquee direction="up" style="height:100px;" id=m onmouseout=m.start() onMouseOver=m.stop() scrollamount="2.5" scrolldelay="20">';
+			$result=mysql_query("SELECT * FROM broadcast");
+			while($row=mysql_fetch_array($result)){
+				echo '<p style="margin:0px 30px;">'.$row['content'].'</p>';
+			}
+			echo '</marquee></div>';
+			//帖子列表
 			$pageposts=50;
 			$page=1;
 			$maxpage=ceil($mainrow['replycount']/$pageposts);
 			if(isset($_GET['pn']))$page=filter($_GET['pn'],true);
-			if(mysql_num_rows(mysql_query("SHOW TABLES LIKE 'Posts'"))!=1){
-				$sqlquery = "CREATE TABLE Posts(
-				PID INT AUTO_INCREMENT,
-				PRIMARY KEY(PID),
-				username TINYTEXT,
-				title TINYTEXT,
-				content TEXT,
-				createtime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				lastedittime TIMESTAMP,
-				lastreplytime TIMESTAMP,
-				parent INT,
-				replycount INT DEFAULT 0,
-				floor INT,
-				maxfloor INT DEFAULT 0
-				)";
-				mysql_query($sqlquery);
-				mysql_query("CREATE CLUSTERED INDEX parent_cindex ON Posts(parent) WITH ALLOW_DUP_ROW");
-				mysql_query("INSERT INTO Posts (username, title, content, parent) VALUES ('system', 'main', '', -1) ");
-				echo "Table 'Posts' initialized.";
-			}
-			$results = mysql_query("SELECT * FROM Posts WHERE parent = 0 ORDER BY lastreplytime DESC LIMIT ".(($page-1)*$pageposts).",".($pageposts));
+			$results = mysql_query("SELECT * FROM Posts WHERE parent = 1 ORDER BY lastreplytime DESC LIMIT ".(($page-1)*$pageposts).",".($pageposts));
 			while($result = mysql_fetch_array($results)){
 				$content=$result['content'];
 				if(strlen($content)>1024)$content=GBsubstr($content,0,1024)." ...";
@@ -89,23 +107,20 @@ function getfontcolor($replycount){
 	</div>
 </div>
 <div id="main_right">
-	<?php loaduserinfo() ?>
-	<p class="nmp">最新帖子：</p>
-	<div class="box">
-		<?php
+	<?php
+		loaduserinfo();
 		ConnectDb();
-		$results = mysql_query("SELECT * FROM Posts WHERE parent=0 ORDER BY createtime DESC LIMIT 0,5");
-		while($result = mysql_fetch_array($results)){
-			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['title']}</a><br />
-			<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
+		$results = mysql_query("SELECT * FROM Posts WHERE parent=1 ORDER BY createtime DESC LIMIT 0,5");
+		if(mysql_num_rows($results)){
+			echo '<p class="nmp">最新帖子：</p>
+					<div class="box">';
+			while($result = mysql_fetch_array($results)){
+				echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['title']}</a><br />
+				<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
+			}
+			echo '</div>';
 		}
 		DisconnectDb();
-		?>
-	</div>
-	<div class="box" style="margin-top:10px;">
-		<p class="nmp" style="font-size:12px;">
-			透露一个小彩蛋：其实发帖的框可以通过拖动右下角的小东西来改变高度。。。
-		</p>
-	</div>
+	?>
 </div>
 <?php loadFooter(); ?>

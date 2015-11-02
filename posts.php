@@ -8,7 +8,7 @@ $ppid=$result['parent'];
 $title=$result['title'];
 $rootrow=$result;
 $isroot=true;
-if($ppid!=0){
+if($ppid!=1){
 	$isroot=false;
 	$rootrow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=".findroot($pid)));
 	$title="回复：" . $rootrow['title'];
@@ -45,21 +45,22 @@ loadHeader($title . " - NEWorld Forum");
 				$content=$result['content'];
 				$pid=$result['PID'];
 				$un=$result['username'];
-				echo '<div class="topic clearfix">
-				<form action="post.php" method="post">
-				<input type="hidden" name="type" value="1" readonly="true">
-				<input type="hidden" name="pid" value="' . $pid . '" readonly="true">';
+				echo '<div class="topic clearfix">';
 				echo "<p class='nmp'>[{$result['floor']}楼] {$result['username']}: {$result['content']}</p>";
 				echo "<p class='nmp' style='font-size:12px;float:right;'>";
 				echo "回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
 				echo '<input type="button" value="回复" class="btn" onclick="showreplybox(' . $pid . ')" />';
 				if($un==getUsername()){
-					echo '&nbsp;&nbsp;<input type="submit" value="删除" class="btn" />';
+					echo '<form action="post.php" method="post" style="display:inline;">
+					<input type="hidden" name="type" value="1" readonly="true">
+					<input type="hidden" name="pid" value="' . $pid . '" readonly="true">
+					&nbsp;<input type="submit" value="删除" class="btn" />
+					</form>';
 				}
-				echo '<div id="replybox_' . $pid . '" style="display:none;">2333</div>';
-				echo '</form></div>';
+				echo '<div id="replybox_'.$pid.'" style="display:none;"></div>';
+				echo '</div>';
 				if($result['replycount']){
-					echo '<div class="box" style="margin:0px;margin-top:10px;padding:8px;width:98%;position:relative;z-index:'.$deep.';">';
+					echo '<div class="box reply" style="z-index:'.$deep.';">';
 					show_replies($pid,$deep+1);
 					echo '</div>';
 				}
@@ -70,7 +71,7 @@ loadHeader($title . " - NEWorld Forum");
 	</div>
 	<?php
 	if($result['replycount']){
-		echo '<div class="box" style="margin-top:10px;padding:8px;">';
+		echo '<div class="box" style="margin-top:10px;">';
 		show_replies($pid,0);
 		echo '</div>';
 	}
@@ -90,18 +91,20 @@ loadHeader($title . " - NEWorld Forum");
 </div>
 
 <div id="main_right">
-	<?php loaduserinfo() ?>
-	<p class="nmp">本帖的最新回复：</p>
-	<div class="box">
-		<?php
-		ConnectDb();
-		$results = mysql_query("SELECT * FROM Posts WHERE parent=".$pid." ORDER BY createtime DESC LIMIT 0,5");
+	<?php
+	loaduserinfo();
+	ConnectDb();
+	$results = mysql_query("SELECT * FROM Posts WHERE parent=".$pid." ORDER BY createtime DESC LIMIT 0,5");
+	if(mysql_num_rows($results)){
+		echo '<p class="nmp">本帖的最新回复：</p>
+				<div class="box">';
 		while($result = mysql_fetch_array($results)){
 			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['content']}</a><br />
-			回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</div>";
+			<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
 		}
-		DisconnectDb();
-		?>
-	</div>
+		echo '</div>';
+	}
+	DisconnectDb();
+	?>
 </div>
 <?php loadFooter(); ?>

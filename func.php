@@ -5,10 +5,14 @@ $mysqlUsername=getenv("MOPAAS_MYSQL29074_USERNAME");
 $mysqlPassword=getenv("MOPAAS_MYSQL29074_PASSWORD");
 $mysqlDBName=getenv("MOPAAS_MYSQL29074_NAME");
 
+$verifyHost="http://infusers.sturgeon.mopaas.com/system/verify.php";
+$registerHost="http://infusers.sturgeon.mopaas.com/register.php";
+
 session_start();
 if(!isset($_SESSION["key"])) $_SESSION["key"]=time()%1024+rand()*10;
 
 function loadHeader($title="NEWorld Forum"){
+	global $registerHost;
 	echo '<!DOCTYPE html>
 	<html lang="cn">
 	<head>
@@ -26,11 +30,11 @@ function loadHeader($title="NEWorld Forum"){
 	<div id="header">
 		<div style="margin:0 20%">
 			<h1 class="nmp" style="color:#ffffff;float:left;">NEWorld Forum</h1>
-			&nbsp;Alpha 0.3.2
+			&nbsp;Alpha 0.3.3
 			<div id="navi">
 				<div class="item' . ($_SERVER['REQUEST_URI']=="/index.php" || $_SERVER['REQUEST_URI']=="/"?"_selected":"") . '" onclick="window.open(\'index.php\',\'_self\')">论坛首页</div>
 				<div class="item' . ($_SERVER['REQUEST_URI']=="/login.php"?"_selected":"") . '" onclick="window.open(\'login.php\',\'_self\')">登录</div>
-				<div class="item" onclick="window.open(\'http://neblog.newinfinideas.com/admin/register.php\',\'_self\')">注册</div>
+				<div class="item" onclick="window.open(\''.$registerHost.'\',\'_self\')">注册</div>
 				<div class="item" onclick="window.open(\'http://www.newinfinideas.com\',\'_self\')">工作室官网</div>
 				<div class="item" onclick="window.open(\'http://neblog.newinfinideas.com\',\'_self\')">BLOG</div>
 			</div>
@@ -41,7 +45,7 @@ function loadHeader($title="NEWorld Forum"){
 function loadFooter(){
 	echo '</div>
 	<div id="footer">
-		copyleft &copy; Infinideas 新创无际
+		新创无际 Infinideas &copy; 2015
 	</div>
 	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
 	</body>
@@ -49,18 +53,21 @@ function loadFooter(){
 }
 
 function loaduserinfo(){
+	global $registerHost;
 	echo '<div class="box">';
 	$un=getUsername();
 	if($un==""){
 		echo '<input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
-		echo ' | <input type="button" value="注册" onclick="window.location=\'http://neblog.newinfinideas.com/admin/register.php\';" class="btn" />';
+		echo ' | <input type="button" value="注册" onclick="window.location=\''.$registerHost.'\';" class="btn" />';
 	}
 	else{
 		echo "$un";
-		echo ' | <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />';
-	}
-	echo '<br />
+		echo ' | <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />
+		<br />
 		<a href="usercenter.php">个人中心[测试版]</a>
+		';
+	}
+	echo '
 		<br />
 		<a href="flatswitch.php" style="font-weight:bold;">简约版/普通版切换</a>
 	</div>';
@@ -70,7 +77,7 @@ function encrypt($data, $key) {
 	$block = mcrypt_get_block_size('des', 'ecb'); 
 	if (($pad = $block - (strlen($prep_code) % $block)) < $block) { 
 		$prep_code .= str_repeat(chr($pad), $pad); 
-	} 
+	}
 	$encrypt = mcrypt_encrypt(MCRYPT_DES, $key, $prep_code, MCRYPT_MODE_ECB); 
 	return base64_encode($encrypt); 
 } 
@@ -104,7 +111,7 @@ function getUsername(){
 function findroot($pid){
 	$currow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = " . $pid));
 	$ppid=$currow['parent'];
-	if($ppid==0)return $pid;
+	if($ppid==1)return $pid;
 	else return findroot($ppid);
 }
 

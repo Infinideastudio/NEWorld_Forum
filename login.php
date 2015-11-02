@@ -1,5 +1,5 @@
 <?php
-	include_once("func.php"); 
+	include_once("func.php");
 	loadHeader();
 	if(isset($_POST['username'])){
 		function Post($url, $post) {
@@ -16,7 +16,7 @@
 		                'content' => $content
 		            )
 		        );
-		        return substr(file_get_contents($url, false, stream_context_create($options)),0,1);
+		        return file_get_contents($url, false, stream_context_create($options));
 		    }
 		}
 		$data = array
@@ -25,10 +25,10 @@
 		    'password' => $_POST['pwd']
 		);
 		 
-		$response = Post('http://neblog.newinfinideas.com/admin/islogin.php', $data);
-		setcookie('islogin',(int)$response,time()+2592000);
-		setcookie('token',encrypt($_POST['username'], $_SESSION["key"]),time()+2592000);
-		if((int)$response==1){
+		$response = Post($verifyHost, $data);
+		setcookie('islogin',$response=="1"?"0":"1",time()+2592000);
+		setcookie('token',encrypt($response, $_SESSION["key"]),time()+2592000);
+		if($response!="1"){
 			echo "登录成功！一秒后将自动跳转！";
 			echo '<meta http-equiv="Refresh" content="1; url=index.php">';
 		}else{
@@ -44,7 +44,7 @@
 				<p><input type="password" name="pwd" id="pwd" placeholder="密码" class="txtbox" style="width:180px;"></p>
 				<p><button type="submit" class="btn">登录</button></p>
 			</form>
-			<a href="http://neblog.newinfinideas.com/admin/register.php">没有账号？免费注册</a>
+			<a href="<?php echo $registerHost; ?>">没有账号？免费注册</a>
 		</div>
 	</div>
 <?php loadFooter(); ?>
