@@ -32,7 +32,7 @@ loadHeader($title . " - NEWorld Forum");
 		echo "<hr style='clear:both;'/>";
 		echo '<p>' . $result['content'] . '</p>';
 		echo "<p class='nmp' style='font-size:12px;float:right;'>";
-		echo "回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']} | 最后编辑：{$result['lastedittime']}</p>";
+		echo "作者：{$result['username']} | 回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
 		if($un==getUsername()){
 			echo '<p><input type="submit" value="删除" class="btn" /></p>';
 		}
@@ -85,9 +85,12 @@ loadHeader($title . " - NEWorld Forum");
 			<input type="hidden" name="type" value="2" readonly="true">
 			<input type="hidden" name="pid" value="<?php echo $_GET['p']; ?>" readonly="true">
 			<textarea name="content" id="content" placeholder="内容" required="true" style="margin-top:10px;width:99%;height:300px;" class="txtbox"></textarea>
+			<!--<iframe name="content" id="editor" class="txtbox" style="margin-top:10px;width:99%;height:300px;"></iframe>-->
 			<p><button type="submit" class="btn" style='color:#ffffff;background-color:#0099ff;'>回复</button></p>
 		</form>
 	</div>
+	<!--<script type="text/javascript">EnableEditor();</script>-->
+	
 </div>
 
 <div id="main_right">

@@ -21,53 +21,45 @@ function loadHeader($title="NEWorld Forum"){
 		<meta name="author" content="Null, qiaozhanrong" />
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
-		<link rel="stylesheet" type="text/css" href="'.(isset($_COOKIE["flat"])&&$_COOKIE["flat"]=="1"?"flat":"styles").'.css" />
-   <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
-   <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
-   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" type="text/css" href="'.getCSSName().'" />
 		<script type="text/javascript" src="func.js"></script>
 		<link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
 		<title>'.$title.'</title>
 	</head>
 	<body>
-<!-- Always shows a header, even in smaller screens. -->
-<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-  <header class="mdl-layout__header">
-    <div class="mdl-layout__header-row">
-      <!-- Title -->
-      <span class="mdl-layout-title">NEWorldForum</span>
-      <!-- Add spacer, to align navigation to the right -->
-      <div class="mdl-layout-spacer"></div>
-      <!-- Navigation. We hide it in small screens. -->
-      <nav class="mdl-navigation mdl-layout--large-screen-only">
-<a class="mdl-navigation__link" onclick="window.open(\'index.php\',\'_self\')">首页</a>
-				<a class="mdl-navigation__link" onclick="window.open(\'login.php\',\'_self\')">登录</a>
-				<a class="mdl-navigation__link" onclick="window.open(\''.$registerHost.'\',\'_self\')">注册</a>
-				<a class="mdl-navigation__link" onclick="window.open(\'http://www.newinfinideas.com\',\'_self\')">工作室官网</a>
-				<a class="mdl-navigation__link" onclick="window.open(\'http://neblog.newinfinideas.com\',\'_self\')">BLOG</a>
-      </nav>
-    </div>
-  </header>
-  <div class="mdl-layout__drawer">
-    <span class="mdl-layout-title">Title</span>
-    <nav class="mdl-navigation">
-  <a class="mdl-navigation__link" onclick="window.open(\'index.php\',\'_self\')">首页</a>
-				<a class="mdl-navigation__link" onclick="window.open(\'login.php\',\'_self\')">登录</a>
-				<a class="mdl-navigation__link" onclick="window.open(\''.$registerHost.'\',\'_self\')">注册</a>
-				<a class="mdl-navigation__link" onclick="window.open(\'http://www.newinfinideas.com\',\'_self\')">工作室官网</a>
-				<a class="mdl-navigation__link" onclick="window.open(\'http://neblog.newinfinideas.com\',\'_self\')">BLOG</a>
-    </nav>
-  </div>
-  <main class="mdl-layout__content">
-    <div class="page-content"><!-- Your content goes here -->';
+	<div id="header">
+		<div style="margin:0 20%">
+			<h1 class="nmp" style="color:#ffffff;float:left;">NEWorld Forum</h1>
+			&nbsp;Alpha 0.3.3
+			<div id="navi">
+				<div class="item' . ($_SERVER['REQUEST_URI']=="/index.php" || $_SERVER['REQUEST_URI']=="/"?"_selected":"") . '" onclick="window.open(\'index.php\',\'_self\')">论坛首页</div>
+				<div class="item' . ($_SERVER['REQUEST_URI']=="/login.php"?"_selected":"") . '" onclick="window.open(\'login.php\',\'_self\')">登录</div>
+				<div class="item" onclick="window.open(\''.$registerHost.'\',\'_self\')">注册</div>
+				<div class="item" onclick="window.open(\'http://www.newinfinideas.com\',\'_self\')">工作室官网</div>
+				<div class="item" onclick="window.open(\'http://neblog.newinfinideas.com\',\'_self\')">BLOG</div>
+			</div>
+		</div>
+	</div>
+	<div id="main">';
 }
 function loadFooter(){
-	echo '
+	echo '</div>
 	<div id="footer">
-		新创无际 Infinideas &copy; 2015
-	</div></div>
-  </main>
-	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
+		<div style="margin:0 12%;float:left;">
+			<a href="http://www.newinfinideas.com/">新创无际网站</a> | 
+			<a href="http://infusers.sturgeon.mopaas.com/">新创无际用户管理系统</a> | 
+			<a href="http://neworld.newinfinideas.com/")">NEWorld网站</a> | 
+			<a href="http://neworldgame.sinaapp.com/")">NEWorld BLOG</a> | 
+			<a href="http://tieba.baidu.com/p/2822071396/">NEWorld贴吧直播贴</a>
+		</div>
+		<div style="margin:0 12%;float:right;">
+			<a href="http://neforum.sturgeon.mopaas.com/">抢鲜版论坛地址</a> | 
+			<script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script>
+		</div>
+		<div style="margin:0 12%;clear:both;">
+			新创无际 Infinideas &copy; 2015
+		</div>
+	</div>
 	</body>
 	</html>';
 }
@@ -89,7 +81,7 @@ function loaduserinfo(){
 	}
 	echo '
 		<br />
-		<a href="flatswitch.php" style="font-weight:bold;">简约版/普通版切换</a>
+		<a href="flatswitch.php" style="font-weight:bold;">当前页面样式：'.getStyleName().'</a>
 	</div>';
 }
 function encrypt($data, $key) { 
@@ -162,6 +154,18 @@ function ConnectDb(){
 function DisconnectDb(){
 	global $con;
 	mysql_close($con);
+}
+function getStyleName(){
+	$style="0";
+	if(isset($_COOKIE["style"]))$style=$_COOKIE["style"];
+	if($style=="0")return "普通版";
+	if($style=="1")return "简约版";
+}
+function getCSSName(){
+	$style="0";
+	if(isset($_COOKIE["style"]))$style=$_COOKIE["style"];
+	if($style=="0")return "normal.css";
+	if($style=="1")return "flat.css";
 }
 
 ?>

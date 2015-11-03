@@ -54,7 +54,7 @@
 			$row=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=".$pid));
 			if ($row['username']==getUsername()) {
 				mysql_query("DELETE FROM Posts WHERE PID = '" . $pid . "'");
-				if($row['parent']==0){
+				if($row['parent']==1){
 					mysql_query("UPDATE Posts SET replycount=replycount-1 WHERE PID=1"); //主贴只负责记录独立帖子数量，独立帖子数减一
 					delete_replies($pid);
 				}
