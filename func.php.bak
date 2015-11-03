@@ -62,11 +62,11 @@ function loadHeader($title="NEWorld Forum"){
     <div class="page-content"><!-- Your content goes here -->';
 }
 function loadFooter(){
-	echo '
+	echo '</div>
+  </main>
 	<div id="footer">
 		新创无际 Infinideas &copy; 2015
-	</div></div>
-  </main>
+	</div>
 	<div style="display:none"><script src="http://s4.cnzz.com/z_stat.php?id=1255967045&web_id=1255967045" language="JavaScript"></script></div>
 	</body>
 	</html>';
