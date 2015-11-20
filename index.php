@@ -41,6 +41,9 @@
 		return "#000000";
 	}
 ?>
+<style type="text/css">
+	.topic img{width:20%;max-height:200px;}
+</style>
 <div id="main_left">
 	<div class="box">
 		<?php
@@ -58,14 +61,14 @@
 			}
 			echo '</marquee></div>';
 			//帖子列表
+			echo '<div style="margin:0px -10px;">';
 			$pageposts=50;
 			$page=1;
 			$maxpage=ceil($mainrow['replycount']/$pageposts);
 			if(isset($_GET['pn']))$page=filter($_GET['pn'],true);
 			$results = mysql_query("SELECT * FROM Posts WHERE parent = 1 ORDER BY lastreplytime DESC LIMIT ".(($page-1)*$pageposts).",".($pageposts));
 			while($result = mysql_fetch_array($results)){
-				$content=$result['content'];
-				if(strlen($content)>1024)$content=GBsubstr($content,0,1024)." ...";
+				$content=indexpage_filter($result['content']);
 				echo "<div class='topic clearfix'>";
 				echo "<p class='nmp' style='font-size:18px;'><a href='posts.php?p={$result['PID']}'>{$result['title']}</a></p>";
 				echo "<p class='nmp' style='font-size:14px;'>{$content}</p>";
@@ -74,6 +77,7 @@
 				echo "<br />最后回复：{$result['lastreplytime']} | 发布时间：{$result['createtime']}</span>";
 				echo "</div>";
 			}
+			echo '</div>';
 			DisconnectDb();
 			//坑爹的翻页系统
 			if($page>1)echo "<input type='button' value='上一页' class='btn' onclick=\" window.open('index.php?pn=".($page-1)."','_self') \" />";
@@ -98,12 +102,13 @@
 	<div class="box" style="margin-top:10px;">
 		<p class="nmp">发表新帖</p>
 		<hr />
-		<form action="post.php" method="post">
-			<input type="hidden" name="type" value="0" readonly="true">
-			<p><input type="text" name="title" id="title" placeholder="标题" autocomplete="off" style="width:99%;height:18px;" class="txtbox"></p>
-			<textarea name="content" id="content" placeholder="内容" required="true" style="width:99%;height:280px;" class="txtbox"></textarea>
-			<p><input type="submit" value="发布" style='color:#ffffff;background-color:#0099ff;' class="btn" /></p>
+		<form id="postreply" action="post.php" method="post">
+			<input type="hidden" name="type" value="0" readonly="true" />
+			<p><input type="text" name="title" id="title" placeholder="标题" autocomplete="off" style="width:99%;height:18px;" class="txtbox" /></p>
+			<input type="hidden" name="content" id="content" value="" />
+			<div id="editor" contenteditable="true" class="txtbox"></div>
 		</form>
+		<p><button onclick="SubmitPost();" class="btn" style='color:#ffffff;background-color:#0099ff;'>发布</button></p>
 	</div>
 </div>
 <div id="main_right">
@@ -113,7 +118,7 @@
 		$results = mysql_query("SELECT * FROM Posts WHERE parent=1 ORDER BY createtime DESC LIMIT 0,5");
 		if(mysql_num_rows($results)){
 			echo '<p class="nmp">最新帖子：</p>
-					<div class="box">';
+					<div class="box" style="padding:0px;">';
 			while($result = mysql_fetch_array($results)){
 				echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['title']}</a><br />
 				<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";

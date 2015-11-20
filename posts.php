@@ -46,7 +46,7 @@ loadHeader($title . " - NEWorld Forum");
 				$pid=$result['PID'];
 				$un=$result['username'];
 				echo '<div class="topic clearfix">';
-				echo "<p class='nmp'>[{$result['floor']}楼] {$result['username']}: {$result['content']}</p>";
+				echo "<p class='nmp'>[".($deep==0?"":$deep."层堆叠,")."{$result['floor']}楼] {$result['username']}:<br />{$result['content']}</p>";
 				echo "<p class='nmp' style='font-size:12px;float:right;'>";
 				echo "回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
 				echo '<input type="button" value="回复" class="btn" onclick="showreplybox(' . $pid . ')" />';
@@ -54,10 +54,10 @@ loadHeader($title . " - NEWorld Forum");
 					echo '<form action="post.php" method="post" style="display:inline;">
 					<input type="hidden" name="type" value="1" readonly="true">
 					<input type="hidden" name="pid" value="' . $pid . '" readonly="true">
-					&nbsp;<input type="submit" value="删除" class="btn" />
+					<input type="submit" value="删除" class="btn" />
 					</form>';
 				}
-				echo '<div id="replybox_'.$pid.'" style="display:none;"></div>';
+				echo '<div id="replybox_'.$pid.'" style="display:none;padding:10px;"></div>';
 				echo '</div>';
 				if($result['replycount']){
 					echo '<div class="box reply" style="z-index:'.$deep.';">';
@@ -71,7 +71,7 @@ loadHeader($title . " - NEWorld Forum");
 	</div>
 	<?php
 	if($result['replycount']){
-		echo '<div class="box" style="margin-top:10px;">';
+		echo '<div class="box" style="padding:0px;margin-top:10px;">';
 		show_replies($pid,0);
 		echo '</div>';
 	}
@@ -81,15 +81,14 @@ loadHeader($title . " - NEWorld Forum");
 	<div class="box" style="margin-top:10px;">
 		<p class="nmp">发表回复</p>
 		<hr />
-		<form action="post.php" method="post">
-			<input type="hidden" name="type" value="2" readonly="true">
-			<input type="hidden" name="pid" value="<?php echo $_GET['p']; ?>" readonly="true">
-			<textarea name="content" id="content" placeholder="内容" required="true" style="margin-top:10px;width:99%;height:300px;" class="txtbox"></textarea>
-			<!--<iframe name="content" id="editor" class="txtbox" style="margin-top:10px;width:99%;height:300px;"></iframe>-->
-			<p><button type="submit" class="btn" style='color:#ffffff;background-color:#0099ff;'>回复</button></p>
+		<form id="postreply" action="post.php" method="post">
+			<input type="hidden" name="type" value="2" readonly="true" />
+			<input type="hidden" name="pid" value="<?php echo $_GET['p']; ?>" readonly="true" />
+			<input type="hidden" name="content" id="content" value="" />
+			<div id="editor" contenteditable="true" class="txtbox"></div>
 		</form>
+		<p><button onclick="SubmitPost();" class="btn" style='color:#ffffff;background-color:#0099ff;'>回复</button></p>
 	</div>
-	<!--<script type="text/javascript">EnableEditor();</script>-->
 	
 </div>
 
@@ -100,7 +99,7 @@ loadHeader($title . " - NEWorld Forum");
 	$results = mysql_query("SELECT * FROM Posts WHERE parent=".$pid." ORDER BY createtime DESC LIMIT 0,5");
 	if(mysql_num_rows($results)){
 		echo '<p class="nmp">本帖的最新回复：</p>
-				<div class="box">';
+				<div class="box" style="padding:0px;">';
 		while($result = mysql_fetch_array($results)){
 			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['content']}</a><br />
 			<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";

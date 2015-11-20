@@ -32,12 +32,8 @@ function showreplybox(pid){
 		},17);
 	}
 }
-/*
-function EnableEditor(){
-	var editor=document.getElementById("editor").contentWindow.document;
-	editor.designMode="on";
-	editor.open();
-	editor.write('<span style=\'font-family:Arial,"Microsoft YaHei","宋体";font-size:14px;\'>在此输入内容</span>');
-	editor.close();
+
+function SubmitPost(){
+	document.getElementById("content").value=document.getElementById("editor").innerHTML;
+	document.getElementById("postreply").submit();
 }
-*/

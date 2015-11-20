@@ -48,8 +48,8 @@ function loadFooter(){
 		<div style="margin:0 12%;float:left;">
 			<a href="http://www.newinfinideas.com/">新创无际网站</a> | 
 			<a href="http://infusers.sturgeon.mopaas.com/">新创无际用户管理系统</a> | 
-			<a href="http://neworld.newinfinideas.com/")">NEWorld网站</a> | 
-			<a href="http://neworldgame.sinaapp.com/")">NEWorld BLOG</a> | 
+			<a href="http://neworld.newinfinideas.com/">NEWorld网站</a> | 
+			<a href="http://neworldgame.sinaapp.com/">NEWorld BLOG</a> | 
 			<a href="http://tieba.baidu.com/p/2822071396/">NEWorld贴吧直播贴</a>
 		</div>
 		<div style="margin:0 12%;float:right;">
@@ -107,8 +107,46 @@ function decrypt($str, $key) {
 function filter($str){
 	$ret=$str;
 	$ret=htmlspecialchars($ret);
-	$ret=str_replace("\\","\\\\",$ret);
-	$ret=str_replace("'","\\'",$ret);
+	$ret=addslashes($ret);
+	return $ret;
+}
+function filter2($str){
+	$ret=addslashes($str);
+	$p=0;$q=strpos($ret,"<");
+	while($q!==false){
+		$closepos=strpos($ret,">",$q+1);
+		if($closepos===false)break;
+		$i=$q;
+		while($i<$closepos){$i++;if($ret[$i]!=" ")break;}
+		$tagbegin=$i;
+		while($i<$closepos){$i++;if($ret[$i]==" ")break;}
+		$tagend=$i;
+		$tag=strtolower(substr($ret,$tagbegin,$tagend-$tagbegin));
+		if($tag=="img" || $tag=="br"){
+			$origin=substr($ret,$p,$q-$p);$originlen=strlen($origin);
+			$replaced=htmlspecialchars($origin);$replacedlen=strlen($replaced);
+			$ret=substr($ret,0,$p).$replaced.substr($ret,$q);
+			$closepos+=$replacedlen-$originlen;
+			$p=$closepos+1;$q=strpos($ret,"<",$p);
+		}
+		else $q=strpos($ret,"<",$q+1);
+	}
+	$ret=substr($ret,0,$p).htmlspecialchars(substr($ret,$p,strlen($ret)-$p));
+	$ret=str_ireplace("&amp;","&",$ret);
+	return $ret;
+}
+function indexpage_filter($str){
+	$ret=$str;
+	if(strlen($ret)>1024)$ret=GBsubstr($ret,0,1024)." ...";
+	//忽略过多换行
+	$len=strlen($ret);
+	$brs=0;$lpos=$pos=-1;
+	while($pos!==false && $brs<=5){
+		$lpos=$pos;
+		$pos=strpos($ret,"<br",$pos+1);
+		if($pos!==false)$brs++;
+	}
+	if($brs>5)$ret=substr($ret,0,$lpos)."<br />...";
 	return $ret;
 }
 

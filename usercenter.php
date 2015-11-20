@@ -7,7 +7,7 @@ include_once("func.php");loadHeader();
 			ConnectDb();
 			echo '<p class="nmp" style="margin-bottom:5px;">我的帖子 - '.getUsername().' [本页仅显示30条记录]</p>';
 			echo "<hr />";
-			$results = mysql_query("SELECT * FROM Posts WHERE username='".getUsername()."' and parent=0 ORDER BY createtime DESC LIMIT 0,30");
+			$results = mysql_query("SELECT * FROM Posts WHERE username='".getUsername()."' and parent=1 ORDER BY createtime DESC LIMIT 0,30");
 			while($result = mysql_fetch_array($results)){
 				$content=$result['content'];
 				if(strlen($content)>1024)$content=GBsubstr($content,0,1024)." ...";
