@@ -21,7 +21,8 @@ function loadHeader($title="NEWorld Forum"){
 		<meta name="author" content="Null, qiaozhanrong" />
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
-		<link rel="stylesheet" type="text/css" href="'.getCSSName().'" />
+		<link rel="stylesheet" type="text/css" href="css/common.css" />
+		<link rel="stylesheet" type="text/css" href="css/'.getCSSName().'" />
 		<script type="text/javascript" src="func.js"></script>
 		<link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
 		<title>'.$title.'</title>

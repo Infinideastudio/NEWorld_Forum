@@ -42,7 +42,7 @@
 	}
 ?>
 <style type="text/css">
-	.topic img{width:20%;max-height:200px;}
+	.topic img{max-width:20%;max-height:200px;}
 </style>
 <div id="main_left">
 	<div class="box">
