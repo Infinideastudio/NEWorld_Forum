@@ -54,7 +54,7 @@
 			echo "<hr style='clear:both;'/>";
 			//公告栏
 			echo '<div class="txtbox" style="background-color:#fafafa;">
-					<marquee direction="up" style="height:100px;" id=m onmouseout=m.start() scrollamount="1.5" scrolldelay="10">';
+					<marquee direction="up" style="height:100px;" id=m scrollamount="1.5" scrolldelay="10">';
 			$result=mysql_query("SELECT * FROM broadcast");
 			while($row=mysql_fetch_array($result)){
 				echo '<p style="margin:0px 30px;">'.$row['content'].'</p>';
