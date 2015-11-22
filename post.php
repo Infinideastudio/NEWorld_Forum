@@ -78,8 +78,8 @@
 				exit();
 			}
 			$pid=filter($_POST['pid']);
-			$_POST['content']=str_replace(chr(10),"<br />",$_POST['content']);
 			$_POST['content']=filter2($_POST['content']);
+			$_POST['content']=str_replace(chr(10),"<br />",$_POST['content']);
 			if ($_POST['content']!=""){
 				mysql_query("UPDATE Posts SET maxfloor=maxfloor+1 WHERE PID=" . $pid); //parent楼层数加一
 				$parentrow=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=" . $pid));

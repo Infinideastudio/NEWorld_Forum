@@ -18,7 +18,7 @@ function loadHeader($title="NEWorld Forum"){
 	<html lang="cn">
 	<head>
 		<meta charset="UTF-8" />
-		<meta http-equiv=”content-type” content=”text/html;charset=UTF-8″ />
+		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 		<meta name="author" content="Null, qiaozhanrong" />
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
@@ -32,7 +32,7 @@ function loadHeader($title="NEWorld Forum"){
 	<div id="header">
 		<div style="margin:0 20%">
 			<h1 class="nmp" style="color:#ffffff;float:left;">NEWorld Forum</h1>
-			&nbsp;Alpha 0.3.3
+			&nbsp;Alpha 0.3.5
 			<div id="navi">
 				<div class="item' . ($_SERVER['REQUEST_URI']=="/index.php" || $_SERVER['REQUEST_URI']=="/"?"_selected":"") . '" onclick="window.open(\'index.php\',\'_self\')">论坛首页</div>
 				<div class="item' . ($_SERVER['REQUEST_URI']=="/login.php"?"_selected":"") . '" onclick="window.open(\'login.php\',\'_self\')">登录</div>
