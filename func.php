@@ -8,6 +8,7 @@ $mysqlDBName=getenv("MOPAAS_MYSQL29074_NAME");
 $verifyHost="http://infusers.sturgeon.mopaas.com/system/verify.php";
 $registerHost="http://infusers.sturgeon.mopaas.com/register.php";
 $adminHost="http://infusers.sturgeon.mopaas.com/system/isadmin.php";
+$userinfoHost="http://infusers.sturgeon.mopaas.com/publicinfo.php";
 
 session_start();
 if(!isset($_SESSION["key"])) $_SESSION["key"]=time()%1024+rand()*10;
@@ -67,7 +68,7 @@ function loadFooter(){
 }
 
 function loaduserinfo(){
-	global $registerHost;
+	global $registerHost,$userinfoHost;
 	echo '<div class="box">';
 	$un=getUsername();
 	if($un==""){
@@ -75,7 +76,7 @@ function loaduserinfo(){
 		echo ' | <input type="button" value="注册" onclick="window.location=\''.$registerHost.'\';" class="btn" />';
 	}
 	else{
-		echo "$un";
+		echo "<a href={$userinfoHost}?username={$un}>{$un}</a>";
 		echo ' | <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />
 		<br />
 		<a href="usercenter.php">个人中心[测试版]</a>
@@ -83,7 +84,7 @@ function loaduserinfo(){
 	}
 	echo '
 		<br />
-		<a href="flatswitch.php" style="font-weight:bold;">当前页面样式：'.getStyleName().'</a>
+		<a href="flatswitch.php">当前页面样式：'.getStyleName().'</a>
 	</div>';
 }
 function encrypt($data, $key) { 

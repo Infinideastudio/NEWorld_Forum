@@ -42,7 +42,7 @@
 	}
 ?>
 <style type="text/css">
-	.topic img{max-width:30%;height:150px;}
+	.topic img{max-width:50%;height:150px;}
 </style>
 <div id="main_left">
 	<div class="box">
@@ -53,13 +53,24 @@
 			echo "<p class='nmp' style='font-size:12px;float:right;'>这里已有{$mainrow['replycount']}个主题帖！</p>";
 			echo "<hr style='clear:both;'/>";
 			//公告栏
-			echo '<div class="txtbox" style="background-color:#fafafa;">
-					<marquee direction="up" style="height:100px;" id=m scrollamount="1" scrolldelay="10">';
+			echo '<div class="txtbox">
+					<marquee direction="up" style="height:100px;" id=m scrollamount="1" scrolldelay="20">';
 			$result=mysql_query("SELECT * FROM broadcast");
 			while($row=mysql_fetch_array($result)){
-				echo '<p style="margin:0px 30px;">'.$row['content'].'</p>';
+				echo '<p style="margin:10px 30px;">'.$row['content'].'</p>';
 			}
 			echo '</marquee></div>';
+			/*
+			echo '<div class="txtbox" style="height:32px;">
+			<p id="noticeboard_upper" style="position:relative;"></p>
+			<p id="noticeboard_lower" style="position:relative;"></p>
+			</div><script>';
+			$result=mysql_query("SELECT * FROM broadcast");
+			while($row=mysql_fetch_array($result)){
+				echo 'noticeboard_additem("'.$row['content'].'");';
+			}
+			echo 'noticeboard_scroll();</script>';
+			*/
 			//帖子列表
 			echo '<div style="margin:0px -10px;">';
 			$pageposts=50;
@@ -72,7 +83,7 @@
 				echo "<div class='topic clearfix'>";
 				echo "<p class='nmp' style='font-size:18px;'><a href='posts.php?p={$result['PID']}'>{$result['title']}</a></p>";
 				echo "<p class='nmp' style='font-size:14px;'>{$content}</p>";
-				echo "<span style='font-size:12px;float:right;'>作者：{$result["username"]} | ";
+				echo "<span style='font-size:12px;float:right;'>作者：<a href={$userinfoHost}?username={$result['username']}>{$result['username']}</a> | ";
 				echo "<span style='color:" . getfontcolor($result['replycount']) . ";'>回复数：{$result['replycount']}</span>";
 				echo "<br />最后回复：{$result['lastreplytime']} | 发布时间：{$result['createtime']}</span>";
 				echo "</div>";
@@ -96,7 +107,6 @@
 			if($page+5<$maxpage)echo "<span style='margin:0 0.2em;'></span><a href='index.php?pn=".$maxpage."'>[".$maxpage."]</a>";
 			if($page<$maxpage)echo " | ";
 			if($page<$maxpage)echo "<input type='button' value='下一页' class='btn' onclick=\" window.open('index.php?pn=".($page+1)."','_self') \" />";
-			//翻页系统到此结束
 		?>
 	</div>
 	<div class="box" style="margin-top:10px;">

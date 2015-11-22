@@ -1,4 +1,8 @@
 var handle;
+var noticeboard_items=new Array();
+var noticeboard_itemcount=0;
+var noticeboard_curitem=0;
+
 function showreplybox(pid){
 	var box=document.getElementById("replybox_"+pid);
 	box.innerHTML="<form action='post.php' method='post'> \
@@ -37,3 +41,28 @@ function SubmitPost(){
 	document.getElementById("content").value=document.getElementById("editor").innerHTML;
 	document.getElementById("postreply").submit();
 }
+/*
+function noticeboard_additem(s){
+	noticeboard_items[noticeboard_itemcount]=s;
+	noticeboard_itemcount++;
+}
+
+function noticeboard_scroll(){
+	var nextitem;
+	if(noticeboard_curitem==noticeboard_items.length-1)nextitem=0;
+	else nextitem=noticeboard_curitem+1;
+	var upper=document.getElementById("noticeboard_upper");
+	var lower=document.getElementById("noticeboard_lower");
+	lower.innerHTML=noticeboard_items[nextitem];
+	upper.style.transition="top 0.3s";
+	lower.style.transition="top 0.3s";
+	upper.style.top="-32px";
+	lower.style.top="0px";
+	setTimeout("upper.style.transition='0s';\
+				lower.style.transition='0s';\
+				upper.style.top='0px';upper.innerHTML=noticeboard_items[nextitem];\
+				lower.style.top='32px';lower.innerHTML='';",500);
+	noticeboard_curitem=nextitem;
+	setTimeout("noticeboard_scroll()",5000);
+}
+*/

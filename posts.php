@@ -35,7 +35,8 @@ loadHeader($title . " - NEWorld Forum");
 		echo "<hr style='clear:both;'/>";
 		echo '<p>' . $result['content'] . '</p>';
 		echo "<p class='nmp' style='font-size:12px;float:right;'>";
-		echo "作者：{$result['username']} | 回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
+		echo "作者：<a href={$userinfoHost}?username={$result['username']}>{$result['username']}</a> | 回复数： {$result['replycount']} | ";
+		echo "最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
 		$candelete=false;
 		if(delete_auth($pid)){
 			echo '<p><input type="submit" value="删除" class="btn" /></p>';
@@ -44,6 +45,7 @@ loadHeader($title . " - NEWorld Forum");
 		echo '</form>';
 		
 		function show_replies($ppid,$deep,$candelete){
+			global $userinfoHost;
 			$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "' ORDER BY floor ASC");
 			$count=0;
 			while($result = mysql_fetch_array($results)){
@@ -51,7 +53,9 @@ loadHeader($title . " - NEWorld Forum");
 				$pid=$result['PID'];
 				$un=$result['username'];
 				echo '<div class="topic clearfix">';
-				echo "<p class='nmp'>[".($deep==0?"":$deep."层堆叠,")."{$result['floor']}楼] {$result['username']}:<br />{$result['content']}</p>";
+				echo "<p class='nmp'>[".($deep==0?"":$deep."层堆叠,")."{$result['floor']}楼] ";
+				echo "<a href={$userinfoHost}?username={$result['username']}>{$result['username']}</a>：";
+				echo "<br />{$result['content']}</p>";
 				echo "<p class='nmp' style='font-size:12px;float:right;'>";
 				echo "回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
 				echo '<input type="button" value="回复" class="btn" onclick="showreplybox(' . $pid . ')" />';

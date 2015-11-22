@@ -1,6 +1,9 @@
 <?php
 include_once("func.php");loadHeader();
 ?>
+<style type="text/css">
+	.topic img{max-width:50%;height:150px;}
+</style>
 <div id="main_left">
 	<div class="box">
 		<?php
@@ -9,8 +12,7 @@ include_once("func.php");loadHeader();
 			echo "<hr />";
 			$results = mysql_query("SELECT * FROM Posts WHERE username='".getUsername()."' and parent=1 ORDER BY createtime DESC LIMIT 0,30");
 			while($result = mysql_fetch_array($results)){
-				$content=$result['content'];
-				if(strlen($content)>1024)$content=GBsubstr($content,0,1024)." ...";
+				$content=indexpage_filter($result['content']);
 				echo "<div class='topic clearfix'>";
 				echo "<p class='nmp' style='font-size:18px;'><a href='posts.php?p={$result['PID']}'>{$result['title']}</a></p>";
 				echo "<p class='nmp' style='font-size:14px;'>{$content}</p>";
@@ -25,7 +27,7 @@ include_once("func.php");loadHeader();
 	<?php loaduserinfo() ?>
 	<p class="nmp">最新回复：</p>
 	<div class="box">
-		[coming soon...]
+		该功能未完成，敬请期待！
 	</div>
 </div>
 <?php loadFooter(); ?>
