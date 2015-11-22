@@ -1,30 +1,15 @@
 <?php
 	include_once("func.php");
+	if(getUsername()!=""){
+		echo '<meta http-equiv="Refresh" content="0; url=usercenter.php" />';
+		return;
+	}
 	loadHeader();
 	if(isset($_POST['username'])){
-		function Post($url, $post) {
-		    if (is_array($post)) {
-		        ksort($post);
-		        $content = http_build_query($post);
-		        $content_length = strlen($content);
-		        $options = array(
-		            'http' => array(
-		                'method' => 'POST',
-		                'header' =>
-		                "Content-type: application/x-www-form-urlencoded\r\n" .
-		                "Content-length: $content_length\r\n",
-		                'content' => $content
-		            )
-		        );
-		        return file_get_contents($url, false, stream_context_create($options));
-		    }
-		}
-		$data = array
-		    (
+		$data = array(
 		    'username' => $_POST['username'],
 		    'password' => $_POST['pwd']
 		);
-		 
 		$response = Post($verifyHost, $data);
 		setcookie('islogin',$response=="1"?"0":"1",time()+2592000);
 		setcookie('token',encrypt($response, $_SESSION["key"]),time()+2592000);

@@ -65,7 +65,7 @@
 			$pageposts=50;
 			$page=1;
 			$maxpage=ceil($mainrow['replycount']/$pageposts);
-			if(isset($_GET['pn']))$page=filter($_GET['pn'],true);
+			if(isset($_GET['pn']))$page=nfilter($_GET['pn'],true);
 			$results = mysql_query("SELECT * FROM Posts WHERE parent = 1 ORDER BY lastreplytime DESC LIMIT ".(($page-1)*$pageposts).",".($pageposts));
 			while($result = mysql_fetch_array($results)){
 				$content=indexpage_filter($result['content']);

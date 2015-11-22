@@ -53,7 +53,7 @@
 		case '1': //删除帖子
 			$pid=filter($_POST['pid']);
 			$row=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=".$pid));
-			if ($row['username']==getUsername()) {
+			if(delete_auth($pid)) {
 				mysql_query("DELETE FROM Posts WHERE PID = '" . $pid . "'");
 				if($row['parent']==1){
 					mysql_query("UPDATE Posts SET replycount=replycount-1 WHERE PID=1"); //主贴只负责记录独立帖子数量，独立帖子数减一

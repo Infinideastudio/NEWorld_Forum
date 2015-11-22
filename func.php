@@ -7,6 +7,7 @@ $mysqlDBName=getenv("MOPAAS_MYSQL29074_NAME");
 
 $verifyHost="http://infusers.sturgeon.mopaas.com/system/verify.php";
 $registerHost="http://infusers.sturgeon.mopaas.com/register.php";
+$adminHost="http://infusers.sturgeon.mopaas.com/system/isadmin.php";
 
 session_start();
 if(!isset($_SESSION["key"])) $_SESSION["key"]=time()%1024+rand()*10;
@@ -104,7 +105,14 @@ function decrypt($str, $key) {
 		$str = substr($str, 0, strlen($str) - $pad); 
 	} 
 	return @unserialize($str); 
-} 
+}
+
+function isalpha($chr){return $chr>="A" && $chr<="Z" || $chr>="a" && $chr<="z";}
+function isname($chr){return isalpha($chr) || $chr=="_" || $chr=="-";}
+
+function nfilter($str){
+	return intval($str);
+}
 function filter($str){
 	$ret=$str;
 	$ret=htmlspecialchars($ret);
@@ -112,7 +120,7 @@ function filter($str){
 	return $ret;
 }
 function filter2($str){
-	$ret=addslashes($str);
+	$ret=$str;
 	$p=0;$q=strpos($ret,"<");
 	while($q!==false){
 		$closepos=strpos($ret,">",$q+1);
@@ -124,17 +132,51 @@ function filter2($str){
 		$tagend=$i;
 		$tag=strtolower(substr($ret,$tagbegin,$tagend-$tagbegin));
 		if($tag=="img" || $tag=="br"){
-			$origin=substr($ret,$p,$q-$p);$originlen=strlen($origin);
-			$replaced=htmlspecialchars($origin);$replacedlen=strlen($replaced);
+			//Escape previous
+			$origin=substr($ret,$p,$q-$p);
+			$originlen=strlen($origin);
+			$replaced=htmlspecialchars($origin);
+			$replacedlen=strlen($replaced);
+			$ret=substr($ret,0,$p).$replaced.substr($ret,$q);
+			$q+=$replacedlen-$originlen;
+			$closepos+=$replacedlen-$originlen;
+			//Filter property
+			$p=$tagend+1;$q=$closepos;
+			$origin=substr($ret,$p,$q-$p);
+			$originlen=strlen($origin);
+			$properties=explode(" ",$origin);
+			$ppcount=count($properties);
+			$replaced="";
+			for($i=0;$i<$ppcount;$i++){
+				$pr=$properties[$i];
+				$plen=strlen($pr);
+				//Get property name
+				for($j=0;$j<$plen;$j++)if(!isname($pr[$j]))break;
+				$property=substr($pr,0,$j);
+				//Check property name
+				if(!property_allowed($tag,$property))continue;
+				//Get property value
+				for(;$j<$plen;$j++)if($pr[$j]=="\""||$pr[$j]=="'")break;
+				$j++;$valuebegin=$j;
+				for(;$j<$plen;$j++)if($pr[$j]=="\""||$pr[$j]=="'")break;
+				$value=substr($pr,$valuebegin,$j-$valuebegin);
+				//Check property value
+				if(!value_allowed($tag,$property,$value))continue;
+				//Append string
+				$replaced.=" ".$pr;
+			}
+			$replacedlen=strlen($replaced);
 			$ret=substr($ret,0,$p).$replaced.substr($ret,$q);
 			$closepos+=$replacedlen-$originlen;
-			$p=$closepos+1;$q=strpos($ret,"<",$p);
+			//Find next
+			$p=$closepos+1;
+			$q=strpos($ret,"<",$p);
 		}
 		else $q=strpos($ret,"<",$q+1);
 	}
 	$ret=substr($ret,0,$p).htmlspecialchars(substr($ret,$p,strlen($ret)-$p));
 	$ret=str_ireplace("&amp;","&",$ret);
-	return $ret;
+	return addslashes($ret);
 }
 function indexpage_filter($str){
 	$ret=$str;
@@ -205,6 +247,57 @@ function getCSSName(){
 	if(isset($_COOKIE["style"]))$style=$_COOKIE["style"];
 	if($style=="0")return "normal.css";
 	if($style=="1")return "flat.css";
+}
+
+function Post($url, $post) {
+	if (is_array($post)) {
+		ksort($post);
+		$content = http_build_query($post);
+		$content_length = strlen($content);
+		$options = array(
+			'http' => array(
+				'method' => 'POST',
+				'header' =>
+				"Content-type: application/x-www-form-urlencoded\r\n" .
+				"Content-length: $content_length\r\n",
+				'content' => $content
+			)
+		);
+		return file_get_contents($url,false,stream_context_create($options));
+	}
+}
+
+function delete_auth($pid){
+	global $adminHost;
+	$un=getUsername();
+	$row=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=".$pid));
+	if($row['username']==$un)return true;
+	while($row['parent']!=1){
+		$pid=$row['parent'];
+		$row=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=".$pid));
+		if($row['username']==$un)return true;
+	}
+	$data=array('username'=>$un);
+	$response=Post($adminHost,$data);
+	if($response=="1")return true;
+	return false;
+}
+
+function property_allowed($tag,$p){
+	if($tag=="img"){
+		if($p=="src" || $p=="alt")return true;
+		return false;
+	}
+	if($tag=="br")return false;
+	return false;
+}
+
+function value_allowed($tag,$p,$v){
+	if($tag=="img" && $p=="src"){
+		$suffix=substr($v,strlen($v)-4,4);
+		if($suffix!=".jpg"&&$suffix!=".png"&&$suffix!=".gif")return false;
+	}
+	return true;
 }
 
 ?>

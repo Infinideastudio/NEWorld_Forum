@@ -1,7 +1,7 @@
 <?php
 include_once("func.php");
 ConnectDb();
-$pid=filter($_GET['p']);
+$pid=nfilter($_GET['p']);
 $result=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = '" . $pid . "'"));
 $un=$result['username'];
 $ppid=$result['parent'];
@@ -33,12 +33,14 @@ loadHeader($title . " - NEWorld Forum");
 		echo '<p>' . $result['content'] . '</p>';
 		echo "<p class='nmp' style='font-size:12px;float:right;'>";
 		echo "作者：{$result['username']} | 回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
-		if($un==getUsername()){
+		$candelete=false;
+		if(delete_auth($pid)){
 			echo '<p><input type="submit" value="删除" class="btn" /></p>';
+			$candelete=true;
 		}
 		echo '</form>';
 		
-		function show_replies($ppid,$deep){
+		function show_replies($ppid,$deep,$candelete){
 			$results = mysql_query("SELECT * FROM Posts WHERE parent='" . $ppid . "' ORDER BY floor ASC");
 			$count=0;
 			while($result = mysql_fetch_array($results)){
@@ -50,7 +52,8 @@ loadHeader($title . " - NEWorld Forum");
 				echo "<p class='nmp' style='font-size:12px;float:right;'>";
 				echo "回复数： {$result['replycount']} | 最后回复：{$result['lastreplytime']} | 发布时间： {$result['createtime']}</p>";
 				echo '<input type="button" value="回复" class="btn" onclick="showreplybox(' . $pid . ')" />';
-				if($un==getUsername()){
+				if(!$candelete && delete_auth($pid))$candelete=true;
+				if($candelete){
 					echo '<form action="post.php" method="post" style="display:inline;">
 					<input type="hidden" name="type" value="1" readonly="true">
 					<input type="hidden" name="pid" value="' . $pid . '" readonly="true">
@@ -61,7 +64,7 @@ loadHeader($title . " - NEWorld Forum");
 				echo '</div>';
 				if($result['replycount']){
 					echo '<div class="box reply" style="z-index:'.$deep.';">';
-					show_replies($pid,$deep+1);
+					show_replies($pid,$deep+1,$candelete);
 					echo '</div>';
 				}
 			}
@@ -72,7 +75,7 @@ loadHeader($title . " - NEWorld Forum");
 	<?php
 	if($result['replycount']){
 		echo '<div class="box" style="padding:0px;margin-top:10px;">';
-		show_replies($pid,0);
+		show_replies($pid,0,$candelete);
 		echo '</div>';
 	}
 	DisconnectDb();
