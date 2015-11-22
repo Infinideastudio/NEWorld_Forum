@@ -42,7 +42,7 @@
 	}
 ?>
 <style type="text/css">
-	.topic img{max-width:20%;max-height:200px;}
+	.topic img{max-width:30%;height:150px;}
 </style>
 <div id="main_left">
 	<div class="box">
@@ -54,7 +54,7 @@
 			echo "<hr style='clear:both;'/>";
 			//公告栏
 			echo '<div class="txtbox" style="background-color:#fafafa;">
-					<marquee direction="up" style="height:100px;" id=m scrollamount="1.5" scrolldelay="10">';
+					<marquee direction="up" style="height:100px;" id=m scrollamount="1" scrolldelay="10">';
 			$result=mysql_query("SELECT * FROM broadcast");
 			while($row=mysql_fetch_array($result)){
 				echo '<p style="margin:0px 30px;">'.$row['content'].'</p>';
@@ -66,7 +66,7 @@
 			$page=1;
 			$maxpage=ceil($mainrow['replycount']/$pageposts);
 			if(isset($_GET['pn']))$page=nfilter($_GET['pn'],true);
-			$results = mysql_query("SELECT * FROM Posts WHERE parent = 1 ORDER BY lastreplytime DESC LIMIT ".(($page-1)*$pageposts).",".($pageposts));
+			$results = mysql_query("SELECT * FROM Posts WHERE parent=1 ORDER BY lastreplytime DESC LIMIT ".(($page-1)*$pageposts).",".($pageposts));
 			while($result = mysql_fetch_array($results)){
 				$content=indexpage_filter($result['content']);
 				echo "<div class='topic clearfix'>";

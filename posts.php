@@ -15,6 +15,9 @@ if($ppid!=1){
 }
 loadHeader($title . " - NEWorld Forum");
 ?>
+<style type="text/css">
+	.topic img{max-width:90%;}
+</style>
 <div id="main_left">
 	<div class="box clearfix">
 		<?php
