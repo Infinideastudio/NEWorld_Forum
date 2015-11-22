@@ -138,10 +138,11 @@ function filter2($str){
 			$replaced=htmlspecialchars($origin);
 			$replacedlen=strlen($replaced);
 			$ret=substr($ret,0,$p).$replaced.substr($ret,$q);
-			$q+=$replacedlen-$originlen;
+			//Offset
 			$closepos+=$replacedlen-$originlen;
+			$tagend+=$replacedlen-$originlen;
 			//Filter property
-			$p=$tagend+1;$q=$closepos;
+			$p=$tagend;$q=$closepos;
 			$origin=substr($ret,$p,$q-$p);
 			$originlen=strlen($origin);
 			$properties=explode(" ",$origin);
