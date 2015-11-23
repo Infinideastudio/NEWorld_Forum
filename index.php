@@ -42,8 +42,33 @@
 	}
 ?>
 <style type="text/css">
-	.topic img{max-width:50%;height:150px;}
+	.topic img{max-width:45%;height:150px;}
+	@media all and (max-width:740px){
+		.topic img{max-width:90%;height:100px;}
+	}
+	@media all and (max-width:600px){
+		.topic img{height:80px;}
+	}
 </style>
+<div id="main_right">
+	<?php
+	loaduserinfo();
+	echo '<div id="latest_topics">';
+	ConnectDb();
+	$results = mysql_query("SELECT * FROM Posts WHERE parent=1 ORDER BY createtime DESC LIMIT 0,5");
+	if(mysql_num_rows($results)){
+		echo '<p class="nmp">最新帖子：</p>
+				<div class="box" style="padding:0px;">';
+		while($result = mysql_fetch_array($results)){
+			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['title']}</a><br />
+			<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
+		}
+		echo '</div>';
+	}
+	DisconnectDb();
+	echo '</div>';
+	?>
+</div>
 <div id="main_left">
 	<div class="box">
 		<?php
@@ -57,7 +82,7 @@
 					<marquee direction="up" style="height:100px;" id=m scrollamount="1" scrolldelay="20">';
 			$result=mysql_query("SELECT * FROM broadcast");
 			while($row=mysql_fetch_array($result)){
-				echo '<p style="margin:10px 30px;">'.$row['content'].'</p>';
+				echo '<p style="margin:10px 10%;">'.$row['content'].'</p>';
 			}
 			echo '</marquee></div>';
 			/*
@@ -120,22 +145,5 @@
 		</form>
 		<p><button onclick="SubmitPost();" class="btn" style='color:#ffffff;background-color:#0099ff;'>发布</button></p>
 	</div>
-</div>
-<div id="main_right">
-	<?php
-		loaduserinfo();
-		ConnectDb();
-		$results = mysql_query("SELECT * FROM Posts WHERE parent=1 ORDER BY createtime DESC LIMIT 0,5");
-		if(mysql_num_rows($results)){
-			echo '<p class="nmp">最新帖子：</p>
-					<div class="box" style="padding:0px;">';
-			while($result = mysql_fetch_array($results)){
-				echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['title']}</a><br />
-				<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
-			}
-			echo '</div>';
-		}
-		DisconnectDb();
-	?>
 </div>
 <?php loadFooter(); ?>

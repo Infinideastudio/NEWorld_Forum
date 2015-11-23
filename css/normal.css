@@ -6,14 +6,14 @@ h3{font-size:20px;}
 a{color:#0099ff;text-decoration:none;transition:color 0.3s;}
 a:hover{color:#bbbbbb;}
 hr{border:1px solid #0099ff;}
-#header{background-color:#0099ff;border-bottom:1px solid #0066dd;padding:10px;}
-#main{background-color:#eeeeee;margin:0 12%;padding:10px;border-left:1px solid #dddddd;border-right:1px solid #dddddd;}
+#header{background-color:#0099ff;border-bottom:1px solid #0066dd;}
+#main{background-color:#eeeeee;border-left:1px solid #dddddd;border-right:1px solid #dddddd;}
 #main:after{content:" ";display:table;clear:both;}
 #footer{color:#ffffff;background-color:#666666;padding:10px;border-top:1px solid #444444;}
 #footer a{font-size:12px;color:#dddddd;}
 #footer a:hover{color:#bbbbbb;}
 #editor{padding:2px 1px;margin-top:10px;background-color:#ffffff;}
-.box{background-color:#ffffff;padding:10px;margin:5px;border:1px solid #bbbbbb;}
+.box{background-color:#ffffff;border:1px solid #bbbbbb;}
 .topic{margin:0px;padding:10px;}
 .topic+.topic{border-top:1px solid #f0f0f0;}
 .topic:hover{background-color:#fafafa;}
@@ -22,6 +22,6 @@ hr{border:1px solid #0099ff;}
 .btn:active{background-color:#bbbbbb;}
 .txtbox{font-size:14px;border:1px solid #cccccc;}
 .txtbox:focus{border-color:#0099ff;}
-.item,.item_selected{padding-left:10px;padding-right:10px;color:#ffffff;font-size:16px;}
+.item,.item_selected{color:#ffffff;}
 .item_selected,.item:hover{border-bottom:3px solid #ffffff;}
 .reply{padding:0px;margin:8px;}

@@ -18,6 +18,25 @@ loadHeader($title . " - NEWorld Forum");
 <style type="text/css">
 	.box img{max-width:90%;}
 </style>
+<div id="main_right">
+	<?php
+	loaduserinfo();
+	echo '<div id="latest_topics">';
+	ConnectDb();
+	$results = mysql_query("SELECT * FROM Posts WHERE parent=".$pid." ORDER BY createtime DESC LIMIT 0,5");
+	if(mysql_num_rows($results)){
+		echo '<p class="nmp">本帖的最新回复：</p>
+				<div class="box" style="padding:0px;">';
+		while($result = mysql_fetch_array($results)){
+			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['content']}</a><br />
+			<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
+		}
+		echo '</div>';
+	}
+	DisconnectDb();
+	echo '</div>';
+	?>
+</div>
 <div id="main_left">
 	<div class="box clearfix">
 		<?php
@@ -100,23 +119,5 @@ loadHeader($title . " - NEWorld Forum");
 		<p><button onclick="SubmitPost();" class="btn" style='color:#ffffff;background-color:#0099ff;'>回复</button></p>
 	</div>
 	
-</div>
-
-<div id="main_right">
-	<?php
-	loaduserinfo();
-	ConnectDb();
-	$results = mysql_query("SELECT * FROM Posts WHERE parent=".$pid." ORDER BY createtime DESC LIMIT 0,5");
-	if(mysql_num_rows($results)){
-		echo '<p class="nmp">本帖的最新回复：</p>
-				<div class="box" style="padding:0px;">';
-		while($result = mysql_fetch_array($results)){
-			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['content']}</a><br />
-			<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
-		}
-		echo '</div>';
-	}
-	DisconnectDb();
-	?>
 </div>
 <?php loadFooter(); ?>

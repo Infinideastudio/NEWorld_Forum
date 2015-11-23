@@ -23,6 +23,7 @@ function loadHeader($title="NEWorld Forum"){
 		<meta name="author" content="Null, qiaozhanrong" />
 		<meta name="keywords" content="NEWorld, Forum" />
 		<meta name="description" content="NEWorld Forum" />
+		<meta content="width=device-width,initial-scale=1.0,user-scalable=yes" id="viewport" name="viewport">
 		<link rel="stylesheet" type="text/css" href="css/common.css" />
 		<link rel="stylesheet" type="text/css" href="css/'.getCSSName().'" />
 		<script type="text/javascript" src="func.js"></script>
@@ -31,14 +32,13 @@ function loadHeader($title="NEWorld Forum"){
 	</head>
 	<body>
 	<div id="header">
-		<div style="margin:0 20%">
-			<h1 class="nmp" style="color:#ffffff;float:left;">NEWorld Forum</h1>
-			&nbsp;Alpha 0.3.5
+		<div id="header_container">
+			<h1>NEWorld Forum</h1>
 			<div id="navi">
-				<div class="item' . ($_SERVER['REQUEST_URI']=="/index.php" || $_SERVER['REQUEST_URI']=="/"?"_selected":"") . '" onclick="window.open(\'index.php\',\'_self\')">论坛首页</div>
+				<div class="item' . ($_SERVER['REQUEST_URI']=="/index.php" || $_SERVER['REQUEST_URI']=="/"?"_selected":"") . '" onclick="window.open(\'index.php\',\'_self\')">首页</div>
 				<div class="item' . ($_SERVER['REQUEST_URI']=="/login.php"?"_selected":"") . '" onclick="window.open(\'login.php\',\'_self\')">登录</div>
 				<div class="item" onclick="window.open(\''.$registerHost.'\',\'_self\')">注册</div>
-				<div class="item" onclick="window.open(\'http://www.newinfinideas.com\',\'_self\')">工作室官网</div>
+				<div class="item" onclick="window.open(\'http://www.newinfinideas.com\',\'_self\')">新创无际</div>
 				<div class="item" onclick="window.open(\'http://neblog.newinfinideas.com\',\'_self\')">BLOG</div>
 			</div>
 		</div>
@@ -69,22 +69,20 @@ function loadFooter(){
 
 function loaduserinfo(){
 	global $registerHost,$userinfoHost;
-	echo '<div class="box">';
+	echo '<div class="box" id="userinfo">';
 	$un=getUsername();
 	if($un==""){
-		echo '<input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
-		echo ' | <input type="button" value="注册" onclick="window.location=\''.$registerHost.'\';" class="btn" />';
+		echo '<p><input type="button" value="登录" onclick="window.location=\'login.php\';" class="btn" />';
+		echo ' <input type="button" value="注册" onclick="window.location=\''.$registerHost.'\';" class="btn" /></p>';
 	}
 	else{
-		echo "<a href={$userinfoHost}?username={$un}>{$un}</a>";
-		echo ' | <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" />
-		<br />
-		<a href="usercenter.php">个人中心[测试版]</a>
+		echo "<p><a href={$userinfoHost}?username={$un}>{$un}</a>";
+		echo ' <input type="button" value="退出" onclick="window.location=\'logout.php\';" class="btn" /></p>
+		<p><a href="usercenter.php">个人中心</a></p>
 		';
 	}
 	echo '
-		<br />
-		<a href="flatswitch.php">当前页面样式：'.getStyleName().'</a>
+		<p><a href="flatswitch.php">页面样式：'.getStyleName().'</a></p>
 	</div>';
 }
 function encrypt($data, $key) { 
