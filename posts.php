@@ -2,7 +2,7 @@
 include_once("func.php");
 ConnectDb();
 $pid=nfilter($_GET['p']);
-$result=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID = '" . $pid . "'"));
+$result=mysql_fetch_array(mysql_query("SELECT * FROM Posts WHERE PID=" . $pid));
 $un=$result['username'];
 $ppid=$result['parent'];
 $title=$result['title'];
@@ -21,20 +21,20 @@ loadHeader($title . " - NEWorld Forum");
 <div id="main_right">
 	<?php
 	loaduserinfo();
-	echo '<div id="latest_topics">';
-	ConnectDb();
-	$results = mysql_query("SELECT * FROM Posts WHERE parent=".$pid." ORDER BY createtime DESC LIMIT 0,5");
-	if(mysql_num_rows($results)){
-		echo '<p class="nmp">本帖的最新回复：</p>
-				<div class="box" style="padding:0px;">';
-		while($result = mysql_fetch_array($results)){
-			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['content']}</a><br />
-			<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
+	function latest_topics($pid){
+		echo '<div id="latest_topics">';
+		$results = mysql_query("SELECT * FROM Posts WHERE parent=".$pid." ORDER BY createtime DESC LIMIT 0,5");
+		if(mysql_num_rows($results)){
+			echo '<p class="nmp">本帖的最新回复：</p><div class="box" style="padding:0px;">';
+			while($result = mysql_fetch_array($results)){
+				echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['content']}</a><br />
+				<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
+			}
+			echo '</div>';
 		}
 		echo '</div>';
 	}
-	DisconnectDb();
-	echo '</div>';
+	latest_topics($pid);
 	?>
 </div>
 <div id="main_left">

@@ -53,20 +53,23 @@
 <div id="main_right">
 	<?php
 	loaduserinfo();
-	echo '<div id="latest_topics">';
-	ConnectDb();
-	$results = mysql_query("SELECT * FROM Posts WHERE parent=1 ORDER BY createtime DESC LIMIT 0,5");
-	if(mysql_num_rows($results)){
-		echo '<p class="nmp">最新帖子：</p>
-				<div class="box" style="padding:0px;">';
-		while($result = mysql_fetch_array($results)){
-			echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['title']}</a><br />
-			<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
+	function latest_topics(){
+		echo '<div id="latest_topics">';
+		ConnectDb();
+		$results = mysql_query("SELECT * FROM Posts WHERE parent=1 ORDER BY createtime DESC LIMIT 0,5");
+		if(mysql_num_rows($results)){
+			echo '<p class="nmp">最新帖子：</p>
+					<div class="box" style="padding:0px;">';
+			while($result = mysql_fetch_array($results)){
+				echo "<div class='topic'>{$result["username"]}：<br /><a href='posts.php?p={$result['PID']}'>{$result['title']}</a><br />
+				<span style='font-size:12px;'>回复数：{$result['replycount']}<br />发布时间：{$result['createtime']}</span></div>";
+			}
+			echo '</div>';
 		}
+		DisconnectDb();
 		echo '</div>';
 	}
-	DisconnectDb();
-	echo '</div>';
+	latest_topics();
 	?>
 </div>
 <div id="main_left">
