@@ -130,7 +130,7 @@ function filter2($str){
 		while($i<$closepos){$i++;if($ret[$i]==" ")break;}
 		$tagend=$i;
 		$tag=strtolower(substr($ret,$tagbegin,$tagend-$tagbegin));
-		if($tag=="img" || $tag=="br"){
+		if(tag_allowed($tag)){
 			//Escape previous
 			$origin=substr($ret,$p,$q-$p);
 			$originlen=strlen($origin);
@@ -283,12 +283,16 @@ function delete_auth($pid){
 	return false;
 }
 
+function tag_allowed($tag){
+	if($tag=="img"||$tag=="br"||$tag=="div"||$tag=="p")return true;
+	return false;
+}
+
 function property_allowed($tag,$p){
 	if($tag=="img"){
 		if($p=="src" || $p=="alt")return true;
 		return false;
 	}
-	if($tag=="br")return false;
 	return false;
 }
 
