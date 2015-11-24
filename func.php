@@ -120,6 +120,11 @@ function filter($str){
 }
 function filter2($str){
 	$ret=$str;
+	//Replace something
+	$ret=str_replace($ret,"</p><p>","<br>");
+	$ret=str_replace($ret,"<p>","");$ret=str_replace($ret,"</p>","");
+	$ret=str_replace($ret,"</div><div>","<br>");
+	$ret=str_replace($ret,"<div>","");$ret=str_replace($ret,"</div>","");
 	$p=0;$q=strpos($ret,"<");
 	while($q!==false){
 		$closepos=strpos($ret,">",$q+1);
@@ -165,6 +170,7 @@ function filter2($str){
 				//Append string
 				$replaced.=" ".$pr;
 			}
+			$replaced.=" /";
 			$replacedlen=strlen($replaced);
 			$ret=substr($ret,0,$p).$replaced.substr($ret,$q);
 			$closepos+=$replacedlen-$originlen;
@@ -284,7 +290,7 @@ function delete_auth($pid){
 }
 
 function tag_allowed($tag){
-	if($tag=="img"||$tag=="br"||$tag=="div"||$tag=="p")return true;
+	if($tag=="img"||$tag=="br")return true;
 	return false;
 }
 
