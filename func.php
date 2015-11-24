@@ -121,8 +121,10 @@ function filter($str){
 function filter2($str){
 	$ret=$str;
 	//Normalize
+	$ret=str_replace("<p></p>","<br>",$ret);
 	$ret=str_replace("</p><p>","<br>",$ret);
 	$ret=str_replace("<p>","",$ret);$ret=str_replace("</p>","",$ret);
+	$ret=str_replace("<div></div>","<br>",$ret);
 	$ret=str_replace("</div><div>","<br>",$ret);
 	$ret=str_replace("<div>","",$ret);$ret=str_replace("</div>","",$ret);
 	$p=0;$q=strpos($ret,"<");
